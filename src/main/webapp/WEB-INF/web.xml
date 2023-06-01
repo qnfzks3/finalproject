@@ -3,10 +3,38 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <!--  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    네임스페이스의 uri를 지정한다.- 이는 jakarta EE에 해당하는 스키마의 유효성을 검사한다.
+       즉, 만약 아래 XML 내용(이름,속성, 데이터 유형,값의 범위 등)이 jakarta EE의 규칙에 해당하지 않는 경우 오류가 발생 한다.
+
+       논리적 구조들을 고유의 URL 식별자로 선언 - xml파일은 대부분의 파일에 적용하는 경우가 많은데,
+        java,spring 등 다양한 파일의 형식이 있다. 그래서 같은 이름의 다른 기능을 하는 테그같은게 있을 수 있음 그래서 써준다.-->
+
+    <!-- xsi:schemaLocation - 첫번째는 사용할 네임스페이스 , 두번째는 참조할 스키마 파일 이름 -->
 
 
+    <context-param>  <!--여기에 설정된 파일은 모든 서블릿과 필터에서 사용되는 설정-->
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/root-context.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
-
+    <servlet>
+        <servlet-name>appServlet</servlet-name> <!--이곳엔 설정할 서블릿 이름을-->
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class><!--DispatcherServlet 클래스 설정-->
+        <init-param> <!--여기에 설정된 모든 서블릿에서만 사용되는 설정-->
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/servlet-context.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>
