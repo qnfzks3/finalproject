@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+        xmlns="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--web에서 설정이 끝났다면, 이제 이곳에 서버렛을 정의하자-->
+
+    <!--컨트롤 매핑 설정- 컨트롤러에서 어노테이션에 지정된 URL로 매핑할 수 있도록-->
+    <annotation-driven />
+
+
+
+    <!-- 웹 정적 자원(static resource) 설정 - JS,CSS,IMG등 파일을 매핑하기위해서 -->
+    <resources mapping="/resources/**" location="WEB-INF/resources" />
+
+    <!--뷰 매핑 설정-->
+    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <beans:property name="prefix" value="/WEB-INF/views/" />
+        <beans:property name="suffix" value=".jsp" />
+
+    </beans:bean>
+
+
+
+
+
+
+    <context:component-scan base-package="qnfzks3.finalproject" />
+    <!--    component-scan를 사용하지 않으면 @Controller를 일일이 bean요소를 이용하여 등록해주어야한다. -->
+</beans:beans>
