@@ -19,7 +19,7 @@
     </properties>
 
     <dependencies>
-        <!-- Spring -->
+        <!-- Spring   =  spring-context,spring-webmvc 사용가능하게 하는 설정-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -38,14 +38,14 @@
             <version>${org.springframework-version}</version>
         </dependency>
 
-        <!-- AspectJ -->
+        <!-- AspectJ 라이브러리 설정(AOP이용)-->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>${org.aspectj-version}</version>
         </dependency>
 
-        <!-- Logging -->
+        <!-- Logging = 로그 기록 라이브러리 slf4j 설정-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -88,14 +88,14 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- @Inject -->
+        <!-- @Inject = JSP-330 표준 어노테이션 라이브러리 설정 -->
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
 
-        <!-- Servlet -->
+        <!-- Servlet = Java 에서 지원하는 serverlet-api , jsp-api ,jstl 라이브러리 사용 가능하도록 설정-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -114,7 +114,7 @@
             <version>1.2</version>
         </dependency>
 
-        <!-- Test -->
+        <!-- Test = junit 라이브러리-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
