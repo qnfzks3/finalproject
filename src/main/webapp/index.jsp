@@ -7,8 +7,9 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "살려줘 문고 도서 쇼핑몰!" %></h1>
+<h1><%= "Welcome to my bookshop !! Plz click under link" %></h1>
 <br/>
-<a href="hello-servlet"> 시작!!</a>
+
+    <a href="/bookindex"> 시작!!</a>
 </body>
 </html>
