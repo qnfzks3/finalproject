@@ -18,8 +18,8 @@
 
 
 
-    <!-- 웹 정적 자원(static resource) 설정 - JS,CSS,IMG등 파일을 매핑하기위해서 -->
-    <resources mapping="/resources/**" location="WEB-INF/resources" />
+    <!-- 웹 정적 자원(static resource) 설정 - JS,CSS,IMG등 파일을 매핑하기위해서 /~ 절대경로 , 그냥 경로하려면 ./~ -->
+    <resources mapping="/resources/**" location="/resources" />
 
     <!--뷰 매핑 설정-->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
