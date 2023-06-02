@@ -1,3 +1,5 @@
+
+
 package qnfzks3.finalproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,10 @@ import qnfzks3.finalproject.model.Book;
 import qnfzks3.finalproject.service.BookService;
 
 import java.util.List;
+
+
+/* 1번 컨트롤러 방식 */
+/*
 
 @Controller
 public class BookController {
@@ -25,3 +31,25 @@ public class BookController {
         return "list/booklist"; //이렇게 컨트롤러에서 조회한 책 목록 데이터를 모델에 추가하여 booklist라는 이름의 뷰로 전달한다.
     }
 }
+*/
+
+
+/*2번 컨트롤러 방식 - 주소창에 http://localhost:8080/books/all 경로로 만들기- 기본 매핑 설정*/
+
+@Controller
+@RequestMapping("/books")    //기본 매핑을 설정 하고
+public class BookController {
+    @Autowired
+    private BookService bookService;
+
+    @RequestMapping("/all") //똑같이 /all 경로에 요청 메서드 실행
+    public String requestBookList(Model model) { //Model 객체 사용
+        List<Book> allbooklist = bookService.getAllBookList();
+        model.addAttribute("bookList", allbooklist);
+
+
+        return "list/booklist";
+
+    }
+}
+
