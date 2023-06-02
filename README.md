@@ -66,19 +66,22 @@ jackson-core, jackson-databind 를 POM에 추가
   웹 관련 설정 - 담당 웹과 상호작용 할 때(selvlet)의 설정
   그냥 servlet 담당 컨트롤러, 뷰(view) 리졸버, 리소스 핸들러, 폼 처리 등과 관련된 빈 객체를 정의
   뷰를 어떻게 처리할지 설정 ,어떻게 작동시킬지
+ 
 
  - pom에서 web 관련된 것들을 추가해주자
 
 
 (2) root-context와 servlet-context를 만들자
+ servlet은 주소로 이동하거나 
 
 
 
  - root-context ,servlet-context 를 만들 때 만약 필요하다면 pom에도 같이 적어주자 
 
 
-### 3. 환경 세팅- pom세팅을 해보자
+### 3. 환경 세팅- pom세팅을 해보자  -- pom.xml파일에 적은 주석 설명 확인바람
 * dependence는 의존성이라는 뜻  
+* <properties> 속성 정보</properties>
 * <dependence> 의존성 라이브러리 정보 </dependence>
   
   <dependency>
@@ -89,5 +92,31 @@ jackson-core, jackson-databind 를 POM에 추가
   </dependency>
 
 
-* <properties> 속성 정보</properties>
+
+
+### 4. 이제 시작해보자 
+JSP는 Java 코드와 HTML을 혼합하여 동적인 웹 페이지를 생성하는 데 사용되는 템플릿 엔진
+* jsp 파일 과 css 로 웹 화면을 디자인 해보자
+
+* 다 되었다면 마리아 db와 연동을 해보자 
+  마리아 db와 연동하기 위해 이전에 pom에서 mariadb 드라이버와 dbcp2 를 넣어 줬을 것이며,
+  mybatis(세션), mapper(데이터베이스 sql문으로 제어)도 적어주었고 
+  jdbc (데이터베이스 연동을 스프링 프레임워크에서 편리하게 사용할 수 있도록 지원) 을 적어 주었다.
+  (여긴 파일만 생성한 root-context에 이제 내용을 적어주자 - dbcp로 연결 데이터베이스 연결)
+                                                  - mybatis의 session 설정 
+ 이제 mvc- model service controller로 넘어가보자
+
+* 먼저 데이터베이스의 컬럼들의 타입(model)을 만들어보자
+
+* 다 만들었다면 이제 dao(Repository-함수 만들고)를 만들어서 
+   daoImpl(@Repository - dao이름 정의)을 만든다.
+   이제 **mapper파일을 만든 후 안에 우리가 가져오고 싶은 데이터가 있는 테이블에 sql문으로 데이터를 가져온다. 
+   daoImpl에는 mapper로 가져온 데이터를 출력 시킨다.
+
+  service로 이 데이터들을 컨트롤러에 출력 시켜준다 - 여기서는 이 데이터들이 조건부로 출력될 수 있도록 만들어줄수있음
+  조건 if 등으로 그후 컨트롤러로 jsp 파일에 세션에 담아 보낼 수 있다.
+  
+* 이제 컨트롤러로 getmapping 을 써서 가져오고 postmapping로 보내거나   둘로 나누기 싫다면 RequestMapping 를 어노테이션으로 사용해서
+  컨트롤러로 만들고 뷰로 보내자
+
 
