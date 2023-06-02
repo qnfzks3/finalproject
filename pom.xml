@@ -12,9 +12,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>   <!--@Override 등 어노테이션들을 사용하기위해서 컴파일러 버전도 적어준다. 타켓 소스-->
+
         <java-version>11</java-version>
         <org.springframework-version>5.3.19</org.springframework-version>
         <org.aspectj-version>1.9.9.1</org.aspectj-version>
+
+        <spring.version>4.3.30.RELEASE</spring.version>
         <org.slf4j-version>1.7.36</org.slf4j-version>
     </properties>
 
@@ -88,7 +93,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- @Inject = JSP-330 표준 어노테이션 라이브러리 설정 -->
+        <!-- @Inject = JSP-330 표준 어노테이션 라이브러리 , 어노테이션을 더 다양하게 사용할 수 있도록 설정  -->
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
@@ -113,6 +118,71 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <!--JDBC를 기반으로 한 데이터베이스 연동을 스프링 프레임워크에서 편리하게 사용할 수 있도록 지원-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+
+        <!-- mariadb -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.5.4</version>
+        </dependency>
+
+        <!-- dbcp2 데이터베이스와의 연결할 수 있도록 설정하는 라이브러리 -아이디 비번등 root-context에서 사용해서 연결한다.-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.7.0</version>
+            <exclusions>
+                <!-- Exclude Commons Logging in favor of log4j-core -->
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+
+
+        <!-- mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>2.0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.10</version>
+        </dependency>
+
+        <!-- object mapper 데이터베이스와 송수신 해야하기때문에-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.14.2</version>
+        </dependency>
+        <!--데이터 바인딩 jackson-databind 설정 JSON 형식의 데이터를 자바 객체로 변환하거나 자바 객체를 JSON으로 직렬화하는 데 사용-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.14.2</version>
+        </dependency>
+
+
+
+
 
         <!-- Test = junit 라이브러리-->
         <dependency>
