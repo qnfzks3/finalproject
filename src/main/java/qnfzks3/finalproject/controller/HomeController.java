@@ -30,7 +30,19 @@ public class HomeController {
         
     }
 
+    @RequestMapping(value = "/bookindex",method = RequestMethod.GET)
+    public String bookindex(Locale locale, Model model){ //home은 요청 처리 메서드
+        logger.info("Welcome home! the client locale is {}." , locale);
+        Date date= new Date();
+        DateFormat dateFormat= DateFormat.getDateTimeInstance(DateFormat.LONG,DateFormat.LONG,locale);
+        String formattedDate = dateFormat.format(date);
+        model.addAttribute("serverTime",formattedDate);
 
+
+
+        return "bookindex";
+
+    }
 
 
 
