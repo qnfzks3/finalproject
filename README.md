@@ -20,8 +20,8 @@ web.xml 파일은 요청 URL과 해당하는 서블릿 또는 필터의 매핑�
 web.xml 파일에 오류에 대한 처리 방법을 설정한다. => Redirect 같은 오류 페이지도 이 파일에서 수행할 수도 있다.
 
 * JSTL - 웹 애플리케이션의 프론트엔드와 백엔드를 연결하는 역할을 수행 - JSTL
-  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
+  `<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>` 
    인터페이스(html,jsp)에 c: 테그로 구현하여 다룬다.
 
 * JSON - JSON형식으로 보통 데이터를 교환한다. 이유는 데이터 저장 및 전송 효율적이며 데이터 구조를 다른 플렛폼에서도 쉽게 처리가능 
@@ -31,10 +31,11 @@ jackson-core, jackson-databind 를 POM에 추가
 
 * tiles  -  중복된 인터페이스 사용을 도와줌
 
+* bean  - 특정 규칙을 따르는 Java 객체 , 또한 beans는 bean의 복수형 형태로 사용, 여러 개의 Bean 객체를 나타낸다.
+  설정 파일이나 애노테이션(@)을 통해 정의된 Beans를 생성하고 관리 
 
-기획 순서 
-1. 생성 시작 - 인텔리제이로 jakarta로 servlet만 추가해서 생성 했다. (환경 세팅- pom세팅을 해보자)
-2. 
+
+
 
 
 
@@ -65,7 +66,7 @@ jackson-core, jackson-databind 를 POM에 추가
  - servlet-context 설정- 서블릿 컨텍스트 파일로 DispatcherServlet에 의해 로드 되는데,
   웹 관련 설정 - 담당 웹과 상호작용 할 때(selvlet)의 설정
   그냥 servlet 담당 컨트롤러, 뷰(view) 리졸버, 리소스 핸들러, 폼 처리 등과 관련된 빈 객체를 정의
-  뷰를 어떻게 처리할지 설정 ,어떻게 작동시킬지
+  뷰를 어떻게 처리할지 설정. 즉,  beans 들을 애노테이션으로 어떻게 작동시킬지 설정
  
 
  - pom에서 web 관련된 것들을 추가해주자
@@ -118,5 +119,45 @@ JSP는 Java 코드와 HTML을 혼합하여 동적인 웹 페이지를 생성하�
   
 * 이제 컨트롤러로 getmapping 을 써서 가져오고 postmapping로 보내거나   둘로 나누기 싫다면 RequestMapping 를 어노테이션으로 사용해서
   컨트롤러로 만들고 뷰로 보내자
+
+
+### 5.컨트롤러
+
+#### 5.1  RequestMapping,GetMapping 과 PostMapping ,
+*  RequestMapping - 수행하는 역할은 GetMapping과 같은 역할을 수행하지만 실행하는 과정이 다르다.
+                    아래 5.2 참고
+
+* GetMapping  - 매핑할 HTTP 요청 방식이 GET
+        
+        @GetMapping("/booklist")
+        public ModelAndView requestBookList(Model model) { 
+        ModelAndView mv = new ModelAndView();
+        List<Book> allbooklist = bookService.getAllBookList();
+        mv.addObject("bookList", allbooklist); 
+        mv.setViewName("list/booklist");
+
+        return mv;
+        }
+GetMapping은 데이터를 담을 그릇으로 Model과 ModelAndView를 사용할 수 있다.
+보통 GetMapping은 주소창 경로로 이동하면 내용이 실행된다. - 위에선 dao(mapper에서 가져온 데이터)와 
+    service(데이터 출력에 조건을 붙여서 넘어온)를 가지고 모델이나 모델엔뷰 라는 저장 공간에 넣어주고 
+    뷰(list/booklist)로 보내는 역할
+
+
+* PostMapping - service에서 조건을 보통 거는데 이 조건(인풋창을 공백으로 뒀을 때 같은)들을 충족하지 않는다면,
+                같은 주소라도 오류를 출력해야한다. 이럴 때 처럼 같은 주소 /booklist 에서 에러가 나왔을 때
+                다음 페이지 뷰(list/bookinfo) 페이지로 보내는게 아니라 
+                다시 다음 페이지로 안넘어가게하고 같은 뷰(list/booklist) 페이지로 나오게 할 수 있다.
+                또한 이걸 이용해서 조건에 따라 다른 페이지로 보내는것이 가능하다.
+
+
+
+#### 5.2 ModelandView 클라스와 Model 클래스(ModelMap)에 대해 알아보자! - RequestMapping 사용하지않을 경우
+
+* Model         - 뷰에 사용할 데이터 addAttribute() 사용해서 데이터를 넣어준다 ,
+                   요청할 뷰 이름을 리턴으로 지정해서 값을 보낸다.
+
+* ModelandView  - addObJect() 를 사용해서 데이터를 넣어준다 ,
+                    요청할 뷰 이름을 set
 
 
