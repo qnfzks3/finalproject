@@ -9,7 +9,7 @@
     <title>Title</title>
     <link href="<c:url value="/resources/bootstrap.min.css"/>"  rel="stylesheet">
     <%--JSTL의<c:url> 태그를 사용하여 상대 경로로 CSS파일을 가져옴 - <c:url>로 가져오면 다른 경로나 환경에 배포되어도 문제없이 파일을 찾을 수 있다. --%>
-
+    <c:set var="pglink" value="/books/booklist?cpg=" />
 </head>
 <body>
 <nav class="navbar navbar-expand navbar-dark bg-dark">
@@ -29,8 +29,9 @@
 
 
 <div class="container">
+
     <div class="row" align="center">
-        <c:forEach items="${bookList}" var="book">
+        <c:forEach items="${bklist}" var="book">
             <div class="col-md-4">
 
                 <h3 class="col">${book.bkname}</h3> <%--여기정의된 book은 위에 var = book 즉,컨트롤러에서 받아온 bookList이다 --%>
@@ -43,6 +44,55 @@
         </c:forEach>
 
     </div>
+<%--<c:choose>와 <c:when>, <c:otherwise>를 사용하여 조건에 따라 다음 버튼이 활성화되거나 비활성화되도록 처리하였습니다.
+    <c:choose>는 여러 개의 조건을 처리하기 위해 사용, <c:when>은 조건이 참인 경우를 처리하고, <c:otherwise>는 그 외의 경우를 처리합니다.--%>
+
+    <div class="row">
+        <div class="offset-2 col-8">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <c:choose>
+                        <c:when test="${cpg - 1 gt 0}">
+                            <li class="page-item">
+                                <a class="page-link" href="${pglink}${cpg-1}">이전</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item disabled">
+                                <a class="page-link">이전</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <c:forEach var="i" begin="${stpg}" end="${stpg + 10 - 1}">
+                        <c:if test="${i le cntpg}">
+                            <c:if test="${i ne cpg}"><li class="page-item"></c:if>
+                            <c:if test="${i eq cpg}"><li class="page-item active"></c:if>
+                            <a class="page-link" href="${pglink}${i}">${i}</a></li>
+                        </c:if>
+                    </c:forEach>
+
+                        <c:choose>
+                            <c:when test="${(cpg+1) gt cntpg}">
+                                <li class="page-item disabled">
+                                    <a class="page-link">다음</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item">
+                                    <a class="page-link" href="${pglink}${cpg+1}">다음</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+
+
+
     <hr>
     <footer>
         <p>&copy; WebMarket</p>

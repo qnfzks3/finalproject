@@ -13,7 +13,14 @@ public class BookDAOImpl implements BookDAO{
     private SqlSession sqlSession;
 
     @Override
-    public List<Book> getAllBookList() {
-        return sqlSession.selectList("book.selectBook");
+    public List<Book> getAllBookList(int stbkid) {
+        return sqlSession.selectList("book.selectBook",stbkid);
+    }
+
+    @Override
+    public int getCountBook() {
+        return sqlSession.selectOne("book.countBook");  //sqlSession.selectOne()은 MyBatis에서 단일 결과를 조회하는 메서드
     }
 }
+
+

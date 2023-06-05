@@ -7,8 +7,11 @@
 * apathe tomcat 9.0.74
 * jakarta EE (maven)
 
-* mybatis -SQL문을 사용하기 위해 사용되는 자바 퍼시스턴스 프레임워크
-  SQL 매핑 파일에 SQL문을 직접 작성하여 데이터베이스에 접근하고, 결과를 매핑하여 자바 객체로 변환
+* mapper - 데이터베이스와 서로 상호작용 하기위한 파일이다.
+
+* mybatis - 데이터베이스와 연동하는 mapper파일 sql의 결과 값을 mybatis의 SqlSession객체를 이용해
+            데이터를 출력하는 용도로 사용된다. 
+          즉,SQL 매핑 파일에 SQL문을 직접 작성하여 데이터베이스에 접근하고, 결과를 매핑하여 자바 객체로 변환
 
 * mariadb -서버(데이터베이스 시스템)
 
@@ -20,8 +23,10 @@ web.xml 파일은 요청 URL과 해당하는 서블릿 또는 필터의 매핑�
 web.xml 파일에 오류에 대한 처리 방법을 설정한다. => Redirect 같은 오류 페이지도 이 파일에서 수행할 수도 있다.
 
 * JSTL - 웹 애플리케이션의 프론트엔드와 백엔드를 연결하는 역할을 수행 - JSTL
-  `<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>` 
+
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>'
+
    인터페이스(html,jsp)에 c: 테그로 구현하여 다룬다.
 
 * JSON - JSON형식으로 보통 데이터를 교환한다. 이유는 데이터 저장 및 전송 효율적이며 데이터 구조를 다른 플렛폼에서도 쉽게 처리가능 
@@ -125,6 +130,7 @@ JSP는 Java 코드와 HTML을 혼합하여 동적인 웹 페이지를 생성하�
 
 #### 5.1  RequestMapping,GetMapping 과 PostMapping ,
 *  RequestMapping - 수행하는 역할은 GetMapping과 같은 역할을 수행하지만 실행하는 과정이 다르다.
+                    RequestMapping는 ModelAndView사용 불가 
                     아래 5.2 참고
 
 * GetMapping  - 매핑할 HTTP 요청 방식이 GET
@@ -159,5 +165,31 @@ GetMapping은 데이터를 담을 그릇으로 Model과 ModelAndView를 사용�
 
 * ModelandView  - addObJect() 를 사용해서 데이터를 넣어준다 ,
                     요청할 뷰 이름을 set
+
+
+#### 5.3 컨트롤러에 매개변수를 넣어준다면 ?  
+
+
+    @GetMapping("/booklist")
+    public ModelAndView requestBookList(int cpg) { //ModelAndView 객체 사용
+        ModelAndView mv = new ModelAndView();
+
+        mv.addObject("bookList", bookService.getAllBookList(cpg)); //뷰 파일(jsp)로 보낼 데이터를 booklist라는 ModelAndView에 이름으로 넣어줌
+        mv.setViewName("list/booklist");
+
+        return mv;
+
+        }
+    }
+
+이렇게 컨트롤러에 매개변수(int cpg)를 넣어 준다면 ?? 컨트롤러의 매개변수는 주소창에서 ?cpg=1 로 불러와진다.
+http://localhost:8080/books/booklist?cpg=1 로 검색창에 치면 cpg에 매개변수 값은 1 로 지정되어 
+controller - > service - > repository - > mapper 로 전해지게 하여 페이지 네이션의 작동 원리가 된다.
+
+
+
+
+
+
 
 

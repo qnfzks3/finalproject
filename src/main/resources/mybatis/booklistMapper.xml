@@ -2,11 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="book">
     <select id="selectBook" statementType="PREPARED"
-            parameterType="map"
+            parameterType="int"
             resultType="qnfzks3.finalproject.model.Book">
         select * from Book
+        order by bookid desc limit #{stbkid}, 5
 
     </select>
+    <!--뒤에서 부터 출력해야 최신 데이터이기 때문에 desc 를 써준다 시작은 0 부터 이기때문에 (cpg-1)*5 로 적어주는 것이다. cpg가 1이면 0부터 cpg가 2면 5부터 되도록-->
 
-    <!-- order by bookid desc limit #{stbno}, 5-->
+    <select id="countBook" statementType="PREPARED" resultType="int">
+        select ceil(count(bookid)/5) cnt from Book
+    </select>
+
+
+
+
+
+
 </mapper>
+
+
+

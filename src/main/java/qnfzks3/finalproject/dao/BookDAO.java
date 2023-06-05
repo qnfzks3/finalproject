@@ -5,5 +5,7 @@ import qnfzks3.finalproject.model.Book;
 import java.util.List;
 
 public interface BookDAO {
-    List<Book> getAllBookList();
+    List<Book> getAllBookList(int stbkid);
+
+    int getCountBook();
 }

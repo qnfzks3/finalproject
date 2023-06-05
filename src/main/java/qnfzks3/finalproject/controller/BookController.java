@@ -68,14 +68,24 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/booklist")
-    public ModelAndView requestBookList(Model model) { //ModelAndView 객체 사용
+    public ModelAndView requestBookList(int cpg) { //ModelAndView 객체 사용
         ModelAndView mv = new ModelAndView();
-        List<Book> allbooklist = bookService.getAllBookList();
-        mv.addObject("bookList", allbooklist); //뷰 파일(jsp)로 보낼 데이터를 booklist라는 ModelAndView에 이름으로 넣어줌
+
+
+        mv.addObject("bklist", bookService.getAllBookList(cpg));
+        mv.addObject("cpg", cpg);
+        mv.addObject("stpg", ((cpg - 1) / 10) * 10 + 1 );
+        mv.addObject("cntpg", bookService.getCountBook()); //뷰 파일(jsp)로 보낼 데이터를 cntpg라는 이름으로 ModelAndView에 이름으로 넣어줌
         mv.setViewName("list/booklist");
 
         return mv;
 
     }
+
+
+
+
+
+
 }
 
