@@ -25,10 +25,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public int getCountBook() {
         return bookDAO.getCountBook();
-    }
+    } //페이지 네이션 총 페이지 수
 
     @Override
-    public List<Book> getBookListByCategory(String category,String fkey,Integer cpg) {
+    public List<Book> getBookListByCategory(String category,String fkey,Integer cpg) {  //검색 리스트 이기때문에 매개변수가 많다.
         int stbkid = (cpg - 1) * 5;
 
         Map<String, Object> params = new HashMap<>();
@@ -41,7 +41,7 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public int getCountBookCategory(String category,String fkey) {
+    public int getCountBookCategory(String category,String fkey) { //페이지 네이션 총 페이지 수
 
         Map<String, Object> params = new HashMap<>();
         params.put("category", category);
