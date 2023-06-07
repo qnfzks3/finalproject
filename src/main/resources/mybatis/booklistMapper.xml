@@ -10,8 +10,27 @@
     </select>
     <!--뒤에서 부터 출력해야 최신 데이터이기 때문에 desc 를 써준다 시작은 0 부터 이기때문에 (cpg-1)*5 로 적어주는 것이다. cpg가 1이면 0부터 cpg가 2면 5부터 되도록-->
 
+
     <select id="countBook" statementType="PREPARED" resultType="int">
         select ceil(count(bookid)/5) cnt from Book
+    </select>
+
+
+    <select id="selectFindBook" statementType="PREPARED" parameterType="map"
+            resultType="qnfzks3.finalproject.model.Book">
+        select * from Book
+        where category like concat(#{category}) and (bkname like concat('%',#{fkey}, '%') or #{fkey} is null)
+        order by bookid desc limit #{stbkid}, 5
+        /*concat이렇게 하면 %가 앞뒤로 있어야하지만 여긴 뒤만있기에 다안나옴*/
+    </select>
+
+
+    <select id="countFindBook" statementType="PREPARED" parameterType="map" resultType="int">
+        select ceil(count(bookid)/5) cnt from Book
+        where category like concat(#{category})and (bkname like concat('%',#{fkey}, '%') or #{fkey} is null)
+
+
+
     </select>
 
 
