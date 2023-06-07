@@ -15,7 +15,7 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public List<Book> getAllBookList(int cpage) {
+    public List<Book> getAllBookList(Integer cpage) {
         int stbkid = (cpage - 1) * 5;
         return bookDAO.getAllBookList(stbkid);
     }

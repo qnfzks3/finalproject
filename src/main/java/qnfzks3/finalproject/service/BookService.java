@@ -5,7 +5,7 @@ import qnfzks3.finalproject.model.Book;
 import java.util.List;
 
 public interface BookService {
-    List<Book> getAllBookList(int cpage);
+    List<Book> getAllBookList(Integer cpage);
 
     public int getCountBook();
 

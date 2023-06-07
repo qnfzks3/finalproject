@@ -68,7 +68,7 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/booklist")
-    public ModelAndView requestBookList(int cpg) { //ModelAndView 객체 사용
+    public ModelAndView requestBookList(Integer cpg) { //ModelAndView 객체 사용
         ModelAndView mv = new ModelAndView();
 
 

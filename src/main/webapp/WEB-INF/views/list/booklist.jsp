@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>도서 목록</title>
     <link href="<c:url value="/resources/bootstrap.min.css"/>"  rel="stylesheet">
     <%--JSTL의<c:url> 태그를 사용하여 상대 경로로 CSS파일을 가져옴 - <c:url>로 가져오면 다른 경로나 환경에 배포되어도 문제없이 파일을 찾을 수 있다. --%>
     <c:set var="pglink" value="/books/booklist?cpg=" />

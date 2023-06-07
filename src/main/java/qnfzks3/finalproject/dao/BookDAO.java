@@ -8,4 +8,7 @@ public interface BookDAO {
     List<Book> getAllBookList(int stbkid);
 
     int getCountBook();
+
+
+
 }

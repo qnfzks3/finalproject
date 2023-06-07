@@ -167,7 +167,7 @@ GetMapping은 데이터를 담을 그릇으로 Model과 ModelAndView를 사용�
                     요청할 뷰 이름을 set
 
 
-#### 5.3 컨트롤러에 매개변수를 넣어준다면 ?  
+#### 5.3 컨트롤러에 매개변수를 넣어준다면 ?  매개 변수가 곧 경로 변수가 된다.
 
 
     @GetMapping("/booklist")
@@ -185,6 +185,30 @@ GetMapping은 데이터를 담을 그릇으로 Model과 ModelAndView를 사용�
 이렇게 컨트롤러에 매개변수(int cpg)를 넣어 준다면 ?? 컨트롤러의 매개변수는 주소창에서 ?cpg=1 로 불러와진다.
 http://localhost:8080/books/booklist?cpg=1 로 검색창에 치면 cpg에 매개변수 값은 1 로 지정되어 
 controller - > service - > repository - > mapper 로 전해지게 하여 페이지 네이션의 작동 원리가 된다.
+
+
+
+#### 5.4  @PathVariable 경로변수 - 경로에서 가져오는 변수
+
+    @Controller
+    @RequestMapping("/home")
+    public class 매서드 이름 {
+    
+        @GetMapping("/exam01/{bookid}")
+        public String requestMethod(@PathVariable String bookid , Model model){
+            model.addAttribute("data","도서 ID:"+bookid);
+            return "webpage06";
+        }
+    }
+이 경우 , http://localhost8080/home/exam01/ss123 이면 
+@RequestMethod()에서 @PathVariable이 설정된 매개 변수 bookid가 경로 변수의 값인 ss123이 된다.
+여기서 경로변수를 두개 써서 가져오고 싶다면
+
+    @GetMapping("/exam01/{bookid}/{writer}")
+    public String requestMethod(@PathVariable String bookid,@PathVariable String writer , Model model){
+        ...
+    }
+이렇게 @PathVariable를 두번 적어주고 가져오면 된다.
 
 
 
