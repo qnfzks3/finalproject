@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import qnfzks3.finalproject.model.Book;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository("bookdao")
 public class BookDAOImpl implements BookDAO{
@@ -23,15 +25,17 @@ public class BookDAOImpl implements BookDAO{
 
     }
 
+    @Override
+    public List<Book> getBookListByCategory(Map<String, Object> params) {
 
 
+        return sqlSession.selectList("book.selectFindBook",params);
+    }
 
-
-
-
-
-
-
+    @Override
+    public int getBookCountByCategory(Map<String, Object> params) {
+        return sqlSession.selectOne("book.countFindBook",params);
+    }
 }
 
 
