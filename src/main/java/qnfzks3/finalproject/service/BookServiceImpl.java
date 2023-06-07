@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import qnfzks3.finalproject.dao.BookDAO;
 import qnfzks3.finalproject.model.Book;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -23,5 +25,28 @@ public class BookServiceImpl implements BookService {
     @Override
     public int getCountBook() {
         return bookDAO.getCountBook();
+    }
+
+    @Override
+    public List<Book> getBookListByCategory(String category,String fkey,Integer cpg) {
+        int stbkid = (cpg - 1) * 5;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("fkey", fkey);
+        params.put("stbkid", stbkid);
+
+        return bookDAO.getBookListByCategory(params);
+    }
+
+
+    @Override
+    public int getCountBookCategory(String category,String fkey) {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("fkey", fkey);
+
+        return bookDAO.getBookCountByCategory(params);
     }
 }

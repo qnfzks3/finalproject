@@ -9,4 +9,9 @@ public interface BookService {
 
     public int getCountBook();
 
+    List<Book> getBookListByCategory(String category,String fkey,Integer cpg);
+
+    public int getCountBookCategory(String category,String fkey);
+
+
 }
