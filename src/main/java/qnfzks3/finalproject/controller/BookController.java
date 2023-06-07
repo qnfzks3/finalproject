@@ -5,9 +5,7 @@ package qnfzks3.finalproject.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import qnfzks3.finalproject.model.Book;
 import qnfzks3.finalproject.service.BookService;
@@ -76,6 +74,21 @@ public class BookController {
         mv.addObject("cpg", cpg);
         mv.addObject("stpg", ((cpg - 1) / 10) * 10 + 1 );
         mv.addObject("cntpg", bookService.getCountBook()); //뷰 파일(jsp)로 보낼 데이터를 cntpg라는 이름으로 ModelAndView에 이름으로 넣어줌
+        mv.setViewName("list/booklist");
+
+        return mv;
+
+    }
+    //검색 기능
+    @GetMapping("/{category}")
+    public ModelAndView requestBooksByCategory(Integer cpg,@PathVariable("category") String bookCategory, String fkey){
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));
+        mv.addObject("cpg", cpg);
+        mv.addObject("stpg", ((cpg - 1) / 10) * 10 + 1 );
+        mv.addObject("cntpg", bookService.getCountBookCategory(bookCategory,fkey) );
+        //stpg나 cpg도 find라도 같게 해주자 - views에서 변수명을 같게 해줬으니까
+
         mv.setViewName("list/booklist");
 
         return mv;
