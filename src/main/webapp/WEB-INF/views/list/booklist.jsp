@@ -12,8 +12,8 @@
     <%--JSTL의<c:url> 태그를 사용하여 상대 경로로 CSS파일을 가져옴 - <c:url>로 가져오면 다른 경로나 환경에 배포되어도 문제없이 파일을 찾을 수 있다. --%>
 
     <c:set var="pglink" value="/books/booklist?cpg=" />
-    <c:if test="${not empty param.fkey}"><%--검색 기능이 포함된 목록 조회--%><%--검색한 주소창에 검색어를 기준으로 접근하자 if문 사용--%>
-        <c:set var="pglink" value="/books/${category}?fkey=${param.fkey}&cpg=" />
+    <c:if test="${not empty category}"><%--검색 기능이 포함된 목록 조회--%><%--검색한 주소창에 검색어를 기준으로 접근하자 if문 사용--%>
+        <c:set var="pglink" value="/books/booklist/${category}?fkey=${param.fkey}&cpg=" />
     </c:if>
 
 
