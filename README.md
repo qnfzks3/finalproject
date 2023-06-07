@@ -9,9 +9,15 @@
 
 * mapper - 데이터베이스와 서로 상호작용 하기위한 파일이다.
 
+
+
 * mybatis - 데이터베이스와 연동하는 mapper파일 sql의 결과 값을 mybatis의 SqlSession객체를 이용해
             데이터를 출력하는 용도로 사용된다. 
           즉,SQL 매핑 파일에 SQL문을 직접 작성하여 데이터베이스에 접근하고, 결과를 매핑하여 자바 객체로 변환
+  
+   
+
+ 
 
 * mariadb -서버(데이터베이스 시스템)
 
@@ -186,6 +192,8 @@ GetMapping은 데이터를 담을 그릇으로 Model과 ModelAndView를 사용�
 http://localhost:8080/books/booklist?cpg=1 로 검색창에 치면 cpg에 매개변수 값은 1 로 지정되어 
 controller - > service - > repository - > mapper 로 전해지게 하여 페이지 네이션의 작동 원리가 된다.
 
+-> 매개변수를 여러개 써줄때는  ? 뒤로 순서 관계없이 cpg=1&category=book 이런식으로 써주면 된다. 
+
 
 
 #### 5.4  @PathVariable 경로변수 - 경로에서 가져오는 변수
@@ -215,4 +223,32 @@ controller - > service - > repository - > mapper 로 전해지게 하여 페이�
 
 
 
+mapper에 sql문에 쓸 경우
+$를 사용하는 경우, 
+해당 위치에 매개변수 값을 그대로 문자열로 치환합니다. 
+이는 SQL 쿼리에 직접 값을 삽입하는 것과 유사합니다. 
+하지만 이렇게 사용할 경우 SQL Injection과 같은 보안 문제가 발생할 수 있으므로 주의해야 합니다.
 
+#를 사용하는 경우, 
+해당 위치에 매개변수 값을 치환하는 것이 아니라 JDBC에서 제공하는 PreparedStatement 기능을 사용하여 값을 바인딩합니다.
+이 방식은 매개변수 값을 안전하게 처리할 수 있으며 SQL Injection을 방지할 수 있습니다.
+
+$를 #로 사용해도 문제는 없다. - 하지만 가능하면 #를 써서 적어주도록 하자
+
+
+#### 6. 이제 데이터를 출력하고 페이지네이션을 만들어 보자!
+ * 우선 데이터를 개수에 맞게 출력해보자
+   Integer cpg,@PathVariable("category") String bookCategory, String fkey를 
+   컨트롤러의 매개변수로 사용해주었다. 
+   cpg는 현재 페이지를 알려주기위해
+   bookCategory는 카테고리가 뭔지
+   fkey는 검색어 
+   매개 변수로 사용했을 시 http://localhost:8080/books/booklist?cpg=1&fkey=교과서 나
+   http://localhost:8080/books/booklist?fkey=교과서&cpg=1 나 순서는 상관 없다. 
+    
+   또한, 여러개의 매개 변수를 사용할 시, Map<String, Object> params = new HashMap<>();같이 
+   map으로 변수들을 넣어줘서 출력해주자.
+   그렇게 dao로 넘겨주고 mapper로 변수로 넘겨준다.
+   
+
+ 
