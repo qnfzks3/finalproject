@@ -83,10 +83,10 @@ public class BookController {
     @GetMapping("/{category}")
     public ModelAndView requestBooksByCategory(Integer cpg,@PathVariable("category") String bookCategory, String fkey){
         ModelAndView mv = new ModelAndView();
-        mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));
-        mv.addObject("cpg", cpg);
-        mv.addObject("stpg", ((cpg - 1) / 10) * 10 + 1 );
-        mv.addObject("cntpg", bookService.getCountBookCategory(bookCategory,fkey) );
+        mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));//sql문으로 페이지에 출력하는 데이터
+        mv.addObject("cpg", cpg);//cpg로 페이지네이션 위치 표시
+        mv.addObject("stpg", ((cpg - 1) / 10) * 10 + 1 ); //시작 페이지 계산하기
+        mv.addObject("cntpg", bookService.getCountBookCategory(bookCategory,fkey) ); //총 페이지 개수
         //stpg나 cpg도 find라도 같게 해주자 - views에서 변수명을 같게 해줬으니까
 
         mv.setViewName("list/booklist");
