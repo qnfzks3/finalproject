@@ -57,6 +57,9 @@ public class BookController {
 }
 */
 
+/*@RequestMapping(value = "/booklist", method = RequestMethod.GET)과 @GetMapping("/booklist")는 기능적으로 동일하다*/
+
+
 /* 3번 컨트롤러 ModelAndView , GetMapping */
 
 @Controller
