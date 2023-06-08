@@ -15,7 +15,9 @@
     <c:if test="${not empty category}"><%--검색 기능이 포함된 목록 조회--%><%--검색한 주소창에 검색어를 기준으로 접근하자 if문 사용--%>
         <c:set var="pglink" value="/list/booklist/${category}?fkey=${param.fkey}&cpg=" />
     </c:if>
-    <%--쿼리스트링 질의 문자열이야 파람으로 불러올수 있어--%>
+    <%--쿼리스트링 질의 문자열: 주소창에 ?뒤에 나오는 변수만이 param으로 불러오도록 되어있으며 category도 param으로 불러오지 않고 싶다면
+      @PathVariable("category")를 안쓰고 그냥 모달엔 뷰에 넣어주면 된다.
+     --%>
 
 </head>
 <body>

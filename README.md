@@ -46,9 +46,19 @@ jackson-core, jackson-databind 를 POM에 추가
   설정 파일이나 애노테이션(@)을 통해 정의된 Beans를 생성하고 관리 
 
 
+* 질의 문자열이란?
+웹서버에 정보를 요청할때 정해진방식으로 전달하는 데 이때 사용하는 문자열을 질의 문자열이라한다.
+질의 문자열의 전송 규칙이있는데, 
+1.이름을 value형식으로 전달되며, 여러개의 value값(매개변수같은)이 존재할때는 순서와 상관없이 &를 구분자로 사용한다.
+   예)id=guset&name=Army
+2.영문자, 숫자, 일부 특수문자는 그대로 전달되고 , 이를 제외한 나머지 문자는 %기호와 함깨 16진수로 바뀌어 전달된다.
+예)주소창을 복사 붙여넣기 하면 EC%84%9C과 같이 나오는 이유
 
+3.공백 문자는 +기호로 변경되어 전달된다.
+예)id=guest&name=Jhon+Smith
 
-
+4.주소창에 적을 시  변수들은 ?뒤로 fkey=1 과 같이 나오는 질의문은 param으로 가져오며 , 앞에 /booklist같은 
+경로는 param없이 그냥 사용해준다.
 
 
 
@@ -246,9 +256,12 @@ $를 #로 사용해도 문제는 없다. - 하지만 가능하면 #를 써서 �
    매개 변수로 사용했을 시 http://localhost:8080/books/booklist?cpg=1&fkey=교과서 나
    http://localhost:8080/books/booklist?fkey=교과서&cpg=1 나 순서는 상관 없다. 
     
-   또한, 여러개의 매개 변수를 사용할 시, Map<String, Object> params = new HashMap<>();같이 
+   또한, 여러개의 매개 변수를 사용할 시(mapper에 #{}로 가져온 매개변수가 여러개일 때),
+   Map<String, Object> params = new HashMap<>();같이 
    map으로 변수들을 넣어줘서 출력해주자.
    그렇게 dao로 넘겨주고 mapper로 변수로 넘겨준다.
    
 
  
+
+

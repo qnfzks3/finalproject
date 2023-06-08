@@ -80,7 +80,7 @@ public class BookController {
 
     }
     //검색 기능
-    @GetMapping("booklist/{category}")
+    @GetMapping("booklist/{category}")    //PathVariable 변수를 경로 값으로 지정
     public ModelAndView requestBooksByCategory(Integer cpg,@PathVariable("category") String bookCategory, String fkey){
         ModelAndView mv = new ModelAndView();
         mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));//sql문으로 페이지에 출력하는 데이터
