@@ -31,9 +31,9 @@
     </select>
 
 
-    <select id="selectBookInfo" statementType="PREPARED" parameterType="int" resultType="qnfzks3.finalproject.model.Book">
+    <select id="selectBookInfo" statementType="PREPARED" parameterType="String" resultType="qnfzks3.finalproject.model.Book">
         select * from Book
-        where bookid =#{bookid}
+        where bookid = #{bookid}
 
     </select>
 
