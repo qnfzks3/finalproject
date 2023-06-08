@@ -42,10 +42,9 @@
     <div class="row" align="center">
         <c:forEach items="${bklist}" var="book">
             <div class="col-md-4">
-
                 <h3 class="col">${book.bkname}</h3> <%--여기정의된 book은 위에 var = book 즉,컨트롤러에서 받아온 bookList이다 --%>
                 <p>${book.author}<br>${book.publisher}|${book.releaseDate}</p>
-                <p align="left">${fn:substring(book.description,0,100)}</p>
+                <p align="left">${fn:substring(book.description,0,50)}...</p>
                 <p>${book.unitPrice}원</p>
                 <p><a href="<c:url value="/list/bookinfo?id=${book.bookid}"/>" class="btn btn-secondary" role="button">
                     상세정보 보기 &raquo;</a></p>

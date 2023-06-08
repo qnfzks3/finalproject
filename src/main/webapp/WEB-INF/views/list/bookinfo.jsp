@@ -28,23 +28,22 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <c:forEach items="${bookinfo}" var="bkif">
-                    <h3>${bkif.bkname}</h3>
-                    <p>${bkif.description}</p>
-                    <br>
-                    <p><b>도서번호 </b> : <span class="badge badge-info"> ${bkif.bookid}</span></p>
-                    <p><b>저자</b> : ${bkif.author}</p>
-                    <p><b>출판사</b> : ${bkif.publisher}</p>
-                    <p><b>출판일</b> : ${bkif.releaseDate}</p>
-                    <p><b>분류</b> : ${bkif.category}</p>
-                    <p><b>재고수</b> : ${bkif.unitInStock}</p>
-                    <p><b>가격</b> : ${bkif.unitPrice}원</p>
-                </c:forEach>
+                    <div class="col-md-12">
+                        <h3>${bookinfo.bkname}</h3>
+                        <p>${bookinfo.description}</p>
+                        <br>
+                        <p><b>도서번호 </b> : <span class="badge badge-info"> ${bookinfo.bookid}</span></p>
+                        <p><b>저자</b> : ${bookinfo.author}</p>
+                        <p><b>출판사</b> : ${bookinfo.publisher}</p>
+                        <p><b>출판일</b> : ${bookinfo.releaseDate}</p>
+                        <p><b>분류</b> : ${bookinfo.category}</p>
+                        <p><b>재고수</b> : ${bookinfo.unitInStock}</p>
+                        <h4>가격 : ${bookinfo.unitPrice}원</h4>
+                    </div>
+
                 <br>
-                <p><a href="#">도서 주문 &raquo;</a></p>
+                <p><a href="#" class="btn btn-primary">도서 주문 &raquo;</a></p>
                 <p><a href="<c:url value="/list/booklist?cpg=1" />">도서 목록 &raquo;</a></p>
-            </div>
         </div>
         <hr>
         <footer>
