@@ -28,8 +28,12 @@
     <select id="countFindBook" statementType="PREPARED" parameterType="map" resultType="int">
         select ceil(count(bookid)/5) cnt from Book
         where category like concat(#{category})and (bkname like concat('%',#{fkey}, '%') or #{fkey} is null)
+    </select>
 
 
+    <select id="selectBookInfo" statementType="PREPARED" parameterType="int" resultType="qnfzks3.finalproject.model.Book">
+        select * from Book
+        where bookid =#{bookid}
 
     </select>
 
