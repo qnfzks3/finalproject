@@ -14,5 +14,5 @@ public interface BookService {
     public int getCountBookCategory(String category,String fkey);
 
 
-    List<Book> getBookInfo(String bookid);
+    Book getBookInfo(String bookid);
 }
