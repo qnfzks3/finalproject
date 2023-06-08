@@ -49,4 +49,9 @@ public class BookServiceImpl implements BookService {
 
         return bookDAO.getBookCountByCategory(params);
     }
+
+    @Override
+    public List<Book> getBookInfo(String bookid) {
+        return bookDAO.getInfo(bookid);
+    }
 }
