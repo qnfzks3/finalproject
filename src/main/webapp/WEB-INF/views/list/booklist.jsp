@@ -13,10 +13,9 @@
 
     <c:set var="pglink" value="/books/booklist?cpg=" />
     <c:if test="${not empty category}"><%--검색 기능이 포함된 목록 조회--%><%--검색한 주소창에 검색어를 기준으로 접근하자 if문 사용--%>
-        <c:set var="pglink" value="/books/booklist/${category}?fkey=${param.fkey}&cpg=" />
+        <c:set var="pglink" value="/list/booklist/${category}?fkey=${param.fkey}&cpg=" />
     </c:if>
-
-
+    <%--쿼리스트링 질의 문자열이야 파람으로 불러올수 있어--%>
 
 </head>
 <body>
@@ -46,9 +45,11 @@
                 <p>${book.author}<br>${book.publisher}|${book.releaseDate}</p>
                 <p align="left">${fn:substring(book.description,0,100)}</p>
                 <p>${book.unitPrice}원</p>
+                <p><a href="<c:url value="/list/bookinfo?id=${book.bookid}"/>" class="btn btn-secondary" role="button">
+                    상세정보 보기 &raquo;</a></p>
 
             </div>
-
+<%--여기 /list/bookinfo?id=${book.bookid} 부분은 버그 래요 신경 안써도 될듯--%>
         </c:forEach>
 
     </div>
