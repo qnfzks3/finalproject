@@ -80,7 +80,7 @@ public class BookController {
 
     }
     //검색 기능
-    @GetMapping("booklist/{category}")    //PathVariable 변수를 경로 값으로 지정
+    @GetMapping("booklist/{category}")    //PathVariable 변수를 경로값으로
     public ModelAndView requestBooksByCategory(Integer cpg,@PathVariable("category") String bookCategory, String fkey){
         ModelAndView mv = new ModelAndView();
         mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));//sql문으로 페이지에 출력하는 데이터
@@ -95,9 +95,10 @@ public class BookController {
 
     }
 
-    @GetMapping("/bookinfo")
-    public String requestBookById(String bookid,Model model){
-        List<Book> bookById = bookService.getBookInfo(bookid);
+    @GetMapping("/bookinfo")  //경로에 @PathVariable가 있다면 매개 변수에는 @RequestParam가 있다.
+                                // booid라고 적지않고 id=로 적어도 bookid로 인식하도록 도와줌
+    public String requestBookById(@RequestParam("id") String bookid,Model model){
+        Book bookById = bookService.getBookInfo(bookid);
         model.addAttribute("bookinfo",bookById);
 
 
