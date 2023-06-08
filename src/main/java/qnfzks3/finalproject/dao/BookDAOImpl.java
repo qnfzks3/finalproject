@@ -36,6 +36,11 @@ public class BookDAOImpl implements BookDAO{
     public int getBookCountByCategory(Map<String, Object> params) {
         return sqlSession.selectOne("book.countFindBook",params);
     }
+
+    @Override
+    public List<Book> getInfo(String bookid) {
+        return sqlSession.selectList("book.selectBookInfo",bookid);
+    }
 }
 
 

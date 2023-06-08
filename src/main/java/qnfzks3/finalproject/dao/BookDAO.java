@@ -16,4 +16,6 @@ public interface BookDAO {
 
     int getBookCountByCategory(Map<String, Object> params);
 
+
+    List<Book> getInfo(String bookid);
 }
