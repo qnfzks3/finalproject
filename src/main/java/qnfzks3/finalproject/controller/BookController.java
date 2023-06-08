@@ -60,7 +60,7 @@ public class BookController {
 /* 3번 컨트롤러 ModelAndView , GetMapping */
 
 @Controller
-@RequestMapping("/books")
+@RequestMapping("/list")
 public class BookController {
     @Autowired
     private BookService bookService;
@@ -80,7 +80,7 @@ public class BookController {
 
     }
     //검색 기능
-    @GetMapping("/{category}")
+    @GetMapping("booklist/{category}")
     public ModelAndView requestBooksByCategory(Integer cpg,@PathVariable("category") String bookCategory, String fkey){
         ModelAndView mv = new ModelAndView();
         mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));//sql문으로 페이지에 출력하는 데이터
@@ -94,6 +94,16 @@ public class BookController {
         return mv;
 
     }
+
+    @GetMapping("/bookinfo")
+    public String requestBookById(String bookid,Model model){
+        List<Book> bookById = bookService.getBookInfo(bookid);
+        model.addAttribute("bookinfo",bookById);
+
+
+        return "list/bookinfo";
+    }
+
 
 
 
