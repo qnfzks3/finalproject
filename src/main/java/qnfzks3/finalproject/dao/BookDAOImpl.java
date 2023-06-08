@@ -33,13 +33,14 @@ public class BookDAOImpl implements BookDAO{
     }
 
     @Override
-    public int getBookCountByCategory(Map<String, Object> params) {
+    public int getBookCountByCategory(Map<String, Object> params) { //함수 안 매개변수는 주소창에서 가져오는 매개변수들을 의미
         return sqlSession.selectOne("book.countFindBook",params);
     }
 
+    //정확히는 mapper 변수 받아올거야-> ...->controller 받아왔다!짠 이제 jsp로 보내주자 mapper에서 바로 컨트롤러와 이어지는거라고 보면 됨
     @Override
-    public List<Book> getInfo(String bookid) {
-        return sqlSession.selectList("book.selectBookInfo",bookid);
+    public Book getInfo(String bookid) {
+        return sqlSession.selectOne("book.selectBookInfo",bookid);  
     }
 }
 
