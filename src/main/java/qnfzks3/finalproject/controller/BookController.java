@@ -22,7 +22,7 @@ public class BookController {
     @Autowired
     private BookService bookService;  //service 객체로 접근 하도록 한다.
 
-    @RequestMapping(value = "/booklist", method = RequestMethod.GET) //주소창 마지막에 /booklist경로로 입려되면 get요청되어  아래 requestBookList가 실행된다.
+    @RequestMapping(value = "/booklist", method = RequestMethod.GET) //주소창 마지막에 /booklist경로로 입려되면 HTTP get요청되어  아래 requestBookList가 실행된다.
     public String requestBookList(Model model){ //Model 객체 사용
         List<Book> allbooklist = bookService.getAllBookList();  //requestBookList가 실행 되면 위에서 @Autowired 어노테이션을 통해 주입바은 bookService안에 getAllBookList를 list로 호출
         model.addAttribute("bookList",allbooklist);  //뷰 파일에 보낼 데이터
