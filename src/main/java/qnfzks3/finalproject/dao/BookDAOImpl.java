@@ -42,6 +42,11 @@ public class BookDAOImpl implements BookDAO{
     public Book getInfo(String bookid) {
         return sqlSession.selectOne("book.selectBookInfo",bookid);  
     }
+
+    @Override
+    public int insertBook(Book newbook) {
+        return sqlSession.insert("book.insertBook",newbook);  //이게 왜 인트야??
+    }
 }
 
 

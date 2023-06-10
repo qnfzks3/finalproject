@@ -18,4 +18,6 @@ public interface BookDAO {
 
 
     Book getInfo(String bookid);
+
+    int insertBook(Book newbook);
 }
