@@ -68,6 +68,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+    //전체 출력
     @GetMapping("/booklist")
     public ModelAndView requestBookList(Integer cpg) { //ModelAndView 객체 사용
         ModelAndView mv = new ModelAndView();
@@ -83,7 +84,7 @@ public class BookController {
 
     }
     //검색 기능
-    @GetMapping("booklist/{category}")    //PathVariable 변수를 경로값으로
+    @GetMapping("booklist/{category}")    //PathVariable 변수를 경로값으로 지정
     public ModelAndView requestBooksByCategory(Integer cpg,@PathVariable("category") String bookCategory, String fkey){
         ModelAndView mv = new ModelAndView();
         mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));//sql문으로 페이지에 출력하는 데이터
@@ -98,6 +99,7 @@ public class BookController {
 
     }
 
+    //상세보기
     @GetMapping("/bookinfo")  //경로에 @PathVariable가 있다면 매개 변수에는 @RequestParam가 있다.
                                 // booid라고 적지않고 id=로 적어도 bookid로 인식하도록 도와줌
     public String requestBookById(@RequestParam("id") String bookid,Model model){
@@ -110,9 +112,39 @@ public class BookController {
 
 
 
+    @GetMapping("/add") //@ModelAttribute 어노테이션은 form에서 @ModelAttribute로 지정된 newbook을 의미한다.
+    public String requestAddBookForm(@ModelAttribute("newbook")Book newbook){
 
 
+        return "list/addBook";
+    }
+//GET 요청
+// 겟 매퍼 따로 , 포스메퍼 따로다  그래서 버튼이 있다면 @ModelAttribute("newbook")Book newbook 를 두개 함수다 적어준다.
+//"list/addBook" 뷰 페이지를 반환하고, 폼에 입력된 데이터를 처리하지 않습니다. 이는 폼을 초기화하고 사용자에게 폼을 보여주는 역할
+// 여기에 적어준 @ModelAttribute("newbook")Book newbook는 초기화 해주는 역할 - 정확힌 어노테이션으로 처음 주소를 치면 지정된
+// 텅빈 객체를 폼(newbook)에 전달   , ModelAttribute는 폼에도 , 컨트롤러에도 ModelAttribute로 존재함
+
+
+
+   @PostMapping("/add")
+   public String requestAddBookFormok(@ModelAttribute("newbook")Book newbook,Model model){
+
+        String viewPage ="list/addbook";
+
+        if (bookService.setNewBook(newbook)){
+            viewPage="redirect:/list/booklist?cpg=1";
+        }               //jsp에서 newbook으로 전달 받고 이걸 서비스 dao mapper 로 전달하도록한다.
+
+        return viewPage;
+    }
+    //@ModelAttribute("newbook") 어노테이션을 @PostMapping("/add") 메서드에 적용하면,
+    // 이 메서드는 전송된 폼 데이터를 해당 어노테이션으로 지정된 객체에 바인딩합니다. 
+    // 즉, 폼에 입력된 데이터가 newbook 객체에 자동으로 매핑되어 컨트롤러 메서드에 전달됩니다. 
+    // 이후 데이터 처리를 위해 newbook 객체를 사용  
 
 
 }
+
+
+
 
