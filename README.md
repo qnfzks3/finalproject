@@ -14,8 +14,7 @@
 * mybatis - 데이터베이스와 연동하는 mapper파일 sql의 결과 값을 mybatis의 SqlSession객체를 이용해
             데이터를 출력하는 용도로 사용된다. 
           즉,SQL 매핑 파일에 SQL문을 직접 작성하여 데이터베이스에 접근하고, 결과를 매핑하여 자바 객체로 변환
-  
-   
+
 
  
 
@@ -46,6 +45,13 @@ jackson-core, jackson-databind 를 POM에 추가
   설정 파일이나 애노테이션(@)을 통해 정의된 Beans를 생성하고 관리 
 
 
+
+* @PathVariable("변수") =  변수를 경로로 지정하게 해주는 함수 /변수
+* @RequestParam("다른 변수명")  = 컨트롤러엔 변수명을cpg라고 적으면 위에 ?로 시작해서 cpg= 로 변수가 나오는게
+                                아니라 다른 변수명= 로 나오게 보안상등의 이유로 변수를 가릴수 있도록 하는 함수
+
+
+
 * 질의 문자열이란?
 웹서버에 정보를 요청할때 정해진방식으로 전달하는 데 이때 사용하는 문자열을 질의 문자열이라한다.
 질의 문자열의 전송 규칙이있는데, 
@@ -61,7 +67,12 @@ jackson-core, jackson-databind 를 POM에 추가
 경로는 param없이 그냥 사용해준다.
 
 
-* 
+* 바인딩 - 변수에 값을 받아오는 것을 말함
+         주소창의 질의 문자열에 해당하는 문자열 값이 컨트롤러에서 매개변수 값으로 받아옴-(바인딩)
+         컨트롤러에서 매퍼로도 #{}를 사용해서  바인딩함 
+
+
+  
 
 5/30일 - 시작
 
@@ -246,6 +257,11 @@ $를 사용하는 경우,
 
 $를 #로 사용해도 문제는 없다. - 하지만 가능하면 #를 써서 적어주도록 하자
 
+parameterType은 컨트롤러에서 서비스 dao등 거처서 올 매개변수의 타입을 적어준다. 이때 매개변수의 타입이
+스트링이고 테이블의 타입이 int 라도 #{}를 사용하여 매개변수를 가져오면 자동으로 형 변환이 되기 때문에 sql 사용가능
+ex)where bookid = ${bookid}
+          int    String->int
+
 
 #### 6. 이제 데이터를 출력하고 페이지네이션을 만들어 보자!
  * 우선 데이터를 개수에 맞게 출력해보자
@@ -261,8 +277,38 @@ $를 #로 사용해도 문제는 없다. - 하지만 가능하면 #를 써서 �
    Map<String, Object> params = new HashMap<>();같이 
    map으로 변수들을 넣어줘서 출력해주자.
    그렇게 dao로 넘겨주고 mapper로 변수로 넘겨준다.
-   
-
  
+   dao에서는 mybatis의 sqlSession.   (selectOne,selectList)로 mapper에서 sql문으로 출력되는 
+    컬럼들을 가져올 수 있다. 
+
+   selectOne는 단일 데이터 한 행 또는 한 칼럼의 값일 때 사용
+   selectList는 다수의 데이터를 가져올 때 사용한다.
+   
+(booklist)
+페이지 네이션 정리 = 페이지 네이션 1. jsp에는 그냥 주소로 이동하도록 for와 <a>태그를 이용해서 페이지를 나타낸다.
+                                  주소가 고정 될 수 있도록
+<c:set var="pglink" value="/list/booklist/${category}?fkey=${param.fkey}&cpg=" />를 적어줘서 
+for로 데이터수만큼 i 에 들어가게 한다.
+
+이제 컨트롤러를 만들어 보자 
+컨트롤러는 주소의 cpg 값을 받아와서 이걸 controller - > service -> dao ->mapper 로 보내고
+sql을 mapper -> dao ->service->controller 로 받아와 jsp에 출력할 수 있도록 한다.
+
+
+
+#### 7. jsp에서 데이터를 컨트롤러로 어떻게 가져올지 와 컨트롤러의 경로에 대해 알아보자
+
+* @ModelAttribute - jsp에서 form으로 참조하는 커맨드 객체를 적어주고,
+                    컨트롤러에 설정된 객체와 동일한 이름으로 설정하여,그 객체로 서로 데이터 바인딩 및 모델 초기화 역할, 
+                    PostMapping이 어노테이션으로 바인딩 된 데이터들을 사용할 수 있게 한다.
+                    GetMapping에서이 어노테이션으로 바인딩 된 데이터들을 초기화  
+
+* @InitBinder  - 데이터 바인딩 설정을 초기화하거나 커스터마이즈하는 용도로 사용
+                  주로 데이터 변환, 검증, 바인딩 설정 등을 처리하는데 사용한다.
+                  @InitBinder 메서드는 WebDataBinder 객체를 파라미터로 받고 ,초기화 한다.
+                  @GetMapper위치에 @InitBinder , @ModelAttribute이 있는 위치에 WebDataBinder사용
+  
+
+
 
 
