@@ -15,4 +15,7 @@ public interface BookService {
 
 
     Book getBookInfo(String bookid);
+
+    boolean setNewBook(Book newbook);
+
 }

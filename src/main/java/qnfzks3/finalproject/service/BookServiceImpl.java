@@ -54,4 +54,21 @@ public class BookServiceImpl implements BookService {
     public Book getBookInfo(String bookid) {
         return bookDAO.getInfo(bookid);
     }
+
+
+
+    @Override
+    public boolean setNewBook(Book newbook) {
+
+        boolean result=false;
+        if (bookDAO.insertBook(newbook) > 0)
+            result=true;
+        return result;
+    }
+
+
+
+
+
+
 }
