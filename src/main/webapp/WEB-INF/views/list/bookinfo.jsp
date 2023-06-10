@@ -37,7 +37,7 @@
                         <p><b>출판사</b> : ${bookinfo.publisher}</p>
                         <p><b>출판일</b> : ${bookinfo.releaseDate}</p>
                         <p><b>분류</b> : ${bookinfo.category}</p>
-                        <p><b>재고수</b> : ${bookinfo.unitInStock}</p>
+                        <p><b>재고수</b> : ${bookinfo.unitsInStock}</p>
                         <h4>가격 : ${bookinfo.unitPrice}원</h4>
                     </div>
 

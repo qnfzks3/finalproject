@@ -1,0 +1,1 @@
+const writebtn =document.querySelector("#writebtn");
