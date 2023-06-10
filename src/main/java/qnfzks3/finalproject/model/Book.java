@@ -10,14 +10,14 @@ public class Book {
     private String description; // 설명
     private String publisher; //저자
     private String category; //분류
-    private long unitInStock; // 재고 수 
+    private Integer unitsInStock; // 재고 수
     private String releaseDate; // 출판일(월/년)
     private String cobd; //신규 도서 또는 중고 도서 , 전자책
 
     public Book() {
     }
 
-    public Book(String bookid, String bkname, int unitPrice, String author, String description, String publisher, String category, long unitInStock, String releaseDate, String cobd) {
+    public Book(String bookid, String bkname, int unitPrice, String author, String description, String publisher, String category, Integer unitsInStock, String releaseDate, String cobd) {
         this.bookid = bookid;
         this.bkname = bkname;
         this.unitPrice = unitPrice;
@@ -25,7 +25,7 @@ public class Book {
         this.description = description;
         this.publisher = publisher;
         this.category = category;
-        this.unitInStock = unitInStock;
+        this.unitsInStock = unitsInStock;
         this.releaseDate = releaseDate;
         this.cobd = cobd;
     }
@@ -86,12 +86,12 @@ public class Book {
         this.category = category;
     }
 
-    public long getUnitInStock() {
-        return unitInStock;
+    public Integer getUnitsInStock() {
+        return unitsInStock;
     }
 
-    public void setUnitInStock(long unitInStock) {
-        this.unitInStock = unitInStock;
+    public void setUnitsInStock(Integer unitsInStock) {
+        this.unitsInStock = unitsInStock;
     }
 
     public String getReleaseDate() {
@@ -109,6 +109,4 @@ public class Book {
     public void setCobd(String cobd) {
         this.cobd = cobd;
     }
-
-
 }
