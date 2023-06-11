@@ -13,9 +13,14 @@
     <!-- xsi:schemaLocation - 첫번째는 사용할 네임스페이스 , 두번째는 참조할 스키마 파일 이름 -->
 
     <!--root-context관련 ,빈(bean)들을 관리-->
-    <context-param>  <!--여기에 설정된 파일은 모든 서블릿과 필터에서 사용되는 설정-->
+    <context-param>  <!--여기에 설정된 파일은 모든 서블릿과 필터에서 사용되는 설정--><!--시큐리티 설정 파일 등록-->
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/root-context.xml</param-value>
+        <param-value>
+            classpath:spring/root-context.xml
+            classpath:spring/security-context.xml
+        </param-value>
+
+
     </context-param>
     <listener>
         <listener-class>
@@ -57,6 +62,22 @@
         <filter-name>EncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+
+    <!--시큐리티 필터,설정 파일 등록-->
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+
 
 
 </web-app>
