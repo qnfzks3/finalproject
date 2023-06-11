@@ -310,5 +310,138 @@ sql을 mapper -> dao ->service->controller 로 받아와 jsp에 출력할 수 �
   
 
 
+#### 8. 로그인/로그아웃 - 스프링 시큐리티 
+
+* 스프링 시큐리티는 인증, 권한 부여를 관리하는 유틸리티를 제공
+
+1. 인증(Authentication): 스프링 시큐리티는 다양한 인증 방식을 지원합니다. 
+ 사용자의 아이디와 비밀번호를 사용한 폼 기반 인증, OAuth, OpenID, SAML 등의 인증 프로토콜을 지원
+ 인증된 사용자는 보호된 자원에 접근할 수 있습니다.
+
+2. 권한 부여(Authorization): 스프링 시큐리티는 애플리케이션의 자원에 대한 접근 권한을 관리합니다. 
+개발자는 세밀한 수준에서 권한을 정의할 수 있으며, 
+애노테이션 기반의 접근 제어, URL 기반의 접근 제어, 메서드 수준의 접근 제어 등 다양한 방식을 사용할 수 있습니다.
+
+3. 보안 설정: 스프링 시큐리티는 보안 설정을 편리하게 처리할 수 있도록 도와줍니다. 
+XML 또는 자바 기반의 설정을 사용하여 보안 정책을 구성할 수 있으며, 강력한 보안 기능을 지원합니다.
+
+4. 세션 관리: 스프링 시큐리티는 세션 관리를 지원하여 사용자의 로그인 상태를 유지하고, 세션 공격으로부터 보호할 수 있습니다.
+
+5. 암호화: 스프링 시큐리티는 사용자의 비밀번호를 안전하게 저장하기 위해 암호화 기능을 제공합니다. 
+ 주로 해시 함수를 사용하여 비밀번호를 저장하고 검증합니다.
+
+6. 로그인/로그아웃 처리: 스프링 시큐리티는 로그인과 로그아웃을 처리하는 기능을 제공합니다. 
+7. 로그인 폼, 인증 성공/실패 처리, 로그아웃 등의 작업을 간편하게 구현할 수 있습니다.
+
+
+* pom.xml에 의존 라이브러리 등록: spring-security-web.jar을 spring-security-config.jar과 함께 pom.xml에 추가
+
+        
+- spring-security-web.jar : 필터 및 웹 보안 인프라 관련 코드를 포함한다.-스프링 시큐리티 웹 인증 서비스 및 url기반
+                            엑세스를 제어하는 경우에 필요한 모듈 
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>5.6.3</version>
+        </dependency>
+
+- spring-security-config.jar : 보안 네임 스페이스 구문을 분석하는 코드 
+                                - 구성을 위해 스프링 시큐리티 xml네임 스페이스를 사용하느 경우 필요한 모듈
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>5.6.3</version>
+        </dependency>
+
+
+
+* web.xml 파일에 시큐리티 필터,설정 파일 등록하기 
+
+-필터 등록
+
+        <filter>
+            <filter-name>springSecurityFilterChain</filter-name>
+            <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        </filter>
+    
+        <filter-mapping>
+            <filter-name>springSecurityFilterChain</filter-name>
+            <url-pattern>/*</url-pattern>
+        </filter-mapping>
+
+- 설정 파일 등록 - classpath 파일 경로 사용
+
+        <context-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/root-context.xml
+            classpath:spring/security-context.xml
+            </param-value>
+        </context-param>
+
+
+- security-context 에 이제 관리자를 지정해보자 (java/resources/spring/servlet-context) 파일을 확인해보자
+
+        <http use-expressions="true"> <!--시큐리티의 시작과 끝을 나타내는데 사용함-->
+        <intercept-url pattern="/list/add" access="hasAuthority('ROLE_ADMIN')"/> <!--시큐리티가 적용되는 URL를 지정-->
+        <form-login/> <!--로그관련 설정을 하는 데 사용한다.-->
+        <csrf/>  <!-- 보안 -->
+        <logout/> <!--로그아웃 관련 설정-->
+
+        <!--관리자 지정 -->
+        </http>
+        <authentication-manager> <!--사용자 권한을 위한 최상위 태그-->
+            <authentication-provider> <!--사용자 정보 인증 처리-->
+                <user-service> <!--유저 정보를 가져올 때 사용-->
+                    <user name="admin" password="{noop}admin" authorities="ROLE_ADMIN"/> 
+
+                </user-service>
+            </authentication-provider>
+        </authentication-manager>
+
+- 권한 지정
+
+    ROLE_ADMIN 관리자
+    ROLE_USER 일반 사용자
+    ROLE_ANONYMOUS 모든 사용자
+    ROLE_RESTRICTED 제한된 사용자
+    IS_AUTHENTICATED_FULLY 인증된 사용자
+    ROLE_AUTHENTICATED_ANONYMOUSLY 익명 사용자
+    ROLE_AUTHENTICATED_REMEMBERED  REMEMBERED 사용자
+  
+
+
+-   {noop}은 암호화 하지 않겠다 선언-현장에선 암호화 적용해야함
+    
+
+* 암호화를 하기 위해선 security-context.xml에 PasswordEncoder 빈 등록 , 컨트롤러와 레퍼지토리도 만들어주어야함
+       <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+  
+    -- 나중에 암호화 하는법 알아보기 - 지금은 그냥 {noop}사용해서 암호화 하지 않고 그냥 씀
+
+
+
+* 뷰 페이지에 사용하는 시큐리티 태그 
+
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 설정을 주고 시작
+
+<sec:authorize> 권한 태그
+- access 접근 권한 설정을 위한 정규 표현식
+- url 접근 권한 사용자만 접근 하도록 경로를 설정
+- var 접근 권한 설정된 사용자를 변수로 재정의 하여 설정
+
+
+-> <sec:authorize access="hasRole('ROLE_ADMIN')" var="권한된 이름"> ...</sec:authorize> 사용자 권한 가짐
+
+-> <sec:authorize access="!hasRole('ROLE_ADMIN')" var="권한된 이름"> ...</sec:authorize> 사용자 권한 가지고있지 않음
+
+-> <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MANGER')"> ...</sec:authorize> 사용자가 둘중 하나의 권한을 가질 때
+
+-> <sec:authorize access="isAuthenticated()"> ...</sec:authorize> 사용자가 로그인 할 때
+
+-> <sec:authorize access="isAnonymous()"> ...</sec:authorize> 사용자가 로그인을 하지 않을 때
+
+
 
 
