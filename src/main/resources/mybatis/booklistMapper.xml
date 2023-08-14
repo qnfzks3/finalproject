@@ -38,8 +38,8 @@
     </select>
 
     <insert id="insertBook" statementType="PREPARED" parameterType="qnfzks3.finalproject.model.Book" >
-        insert into Book(bkname,unitPrice,author,description,publisher,category,unitsInStock)
-        values (#{bkname},#{unitPrice},#{author},#{description},#{publisher},#{category},#{unitsInStock});
+        insert into Book(bkname,unitPrice,author,description,publisher,category,unitsInStock,cobd,imagePath)
+        values (#{bkname},#{unitPrice},#{author},#{description},#{publisher},#{category},#{unitsInStock},#{cobd},#{imagePath});
 
     </insert>
 

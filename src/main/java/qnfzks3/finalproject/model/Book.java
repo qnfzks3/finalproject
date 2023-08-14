@@ -1,5 +1,7 @@
 package qnfzks3.finalproject.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Book {
     private String bookid;   //도서ID
     private String bkname;    //도서명
@@ -14,10 +16,17 @@ public class Book {
     private String releaseDate; // 출판일(월/년)
     private String cobd; //신규 도서 또는 중고 도서 , 전자책
 
+    private MultipartFile bookImage;  //도서 업로드된 이미지파일 객체를 넣어줄 변수 - 칼럼아님 그냥 변수로 넣어주기위해 사용
+
+    private String imagePath; //이미지 파일 경로-들어가는 값은 경로/파일명이 들어감
+
+
+
+
     public Book() {
     }
 
-    public Book(String bookid, String bkname, int unitPrice, String author, String description, String publisher, String category, Integer unitsInStock, String releaseDate, String cobd) {
+    public Book(String bookid, String bkname, int unitPrice, String author, String description, String publisher, String category, Integer unitsInStock, String releaseDate, String cobd, MultipartFile bookImage) {
         this.bookid = bookid;
         this.bkname = bkname;
         this.unitPrice = unitPrice;
@@ -28,6 +37,7 @@ public class Book {
         this.unitsInStock = unitsInStock;
         this.releaseDate = releaseDate;
         this.cobd = cobd;
+        this.bookImage = bookImage;
     }
 
     public String getBookid() {
@@ -109,4 +119,29 @@ public class Book {
     public void setCobd(String cobd) {
         this.cobd = cobd;
     }
+
+    public MultipartFile getBookImage() {  //파일 올리면 파일은 여기에 저장됨 get
+        return bookImage;
+    }
+
+    public void setBookImage(MultipartFile bookImage) {
+        this.bookImage = bookImage;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+
+
+
 }
+
+/*
+1. DAO에 있는 지정된 변수들은 칼럼으로 데이터베이스에 들어가지 않아도 된다.
+
+*/

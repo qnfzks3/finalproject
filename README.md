@@ -303,6 +303,10 @@ sql을 mapper -> dao ->service->controller 로 받아와 jsp에 출력할 수 �
                     PostMapping이 어노테이션으로 바인딩 된 데이터들을 사용할 수 있게 한다.
                     GetMapping에서이 어노테이션으로 바인딩 된 데이터들을 초기화  
 
+- @ModelAttribute는 pulic 위에 적을 때(메소드 레벨에서 사용한 경우), 와 매개변수로 적을 때 기능이 달라진다.
+  즉, @ModelAttribute는 메소드 레벨에서 전역적인 모델 속성을 추가하는 데 사용되거나,
+   매개변수로 사용하여 컨트롤러의 요청 핸들러 메소드에 바인딩된 객체를 모델에 추가하는 데 사용 
+
 * @InitBinder  - 데이터 바인딩 설정을 초기화하거나 커스터마이즈하는 용도로 사용
                   주로 데이터 변환, 검증, 바인딩 설정 등을 처리하는데 사용한다.
                   @InitBinder 메서드는 WebDataBinder 객체를 파라미터로 받고 ,초기화 한다.
@@ -443,5 +447,67 @@ XML 또는 자바 기반의 설정을 사용하여 보안 정책을 구성할 �
 -> <sec:authorize access="isAnonymous()"> ...</sec:authorize> 사용자가 로그인을 하지 않을 때
 
 
+
+
+#### 9. 파일 업로드  - 테이블은 varchar(255)로 쓰고 이 안에다 경로를 적어준다.
+
+* pom.xml에 commans-fileload.jar 과 commons-io.jar파일 라이브러리로 등록
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commans-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+
+* selvlet-context.xml파일에 필터 등록하기
+
+
+    <beans:bean id="multipartResolver"
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <beans:property name="maxInMemorySize" value="1000"/>   <!--파일 최대 크기 -->
+    <beans:property name="defaultEncoding" value="utf-8"/>   <!--파일 최대 크기 -->
+    <beans:property name="uploadTempDir" ref="uploadDirResource"/>   <!--파일 최대 크기 -->
+    
+        </beans:bean>
+    
+        <beans:bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">  <!--uploadDirResource-임시저장공간 bean정의-->
+            <beans:constructor-arg value="c:/upload"/>
+        </beans:bean>
+
+
+* 웹 브라우저에서 서버로 파일을 전송할 수 있는 jsp 페이지가 필요
+- jsp 페이지의 폼 태크를 작성 시 반드시 규칙을 따라야한다. - jsp 페이지에 파일 업로드 폼태그
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="요청 매개변수 이름">
+        </form>
+
+
+- @Requestparam사용 파일을 업로드하는 방법은 멀티파트 요청이 들어올 때 요청 처리 메서드의 매개변수에
+  @Requestparam을 이용하여 폼 페이지에서 MultipartFile타입으로 전송되는 매개 변수나 업로드한 파일 데이터를 전달
+   jsp에서 Multipart/form-data로 컨트롤러에서 form으로 받아온다.
+
+
+
+- MultipartFile 인터페이스 메서드
+
+getName() : MultipartFile의 매개변수 이름을 반환 (String)
+getContentType() : 파일의 콘텐츠 형식을 반환  (String)
+getOriginalFilename() : 클라이언트의 파일 시스템에서 실제 파일 이름을 반환 (String)
+isEmpty() : 업로드한 파일이 있는지 반환 (boolean)- 참 , 거짓
+getSize() : 바이트의 파일 크기를 반환 (long)
+getBytes() : 바이트의 배열로 파일 내용을 반환 (byte[])
+getInputStream() : 파일 폼의 내용을 읽어 InputStream을 반환 (InputStream)
+transferTo(File dest) : 수신된 파일을 지정한 대상 파일에 전송 (void)
+
+
+
+
+웹에서 로컬로 
 
 

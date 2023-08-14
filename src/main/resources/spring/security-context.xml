@@ -17,7 +17,7 @@
                     default-target-url="/index"
                     authentication-failure-forward-url="/loginfailed"
                     username-parameter="username"
-                    password-parameter="password"/> <!--form-login로그관련 설정을 하는 데 사용한다.-->
+                    password-parameter="password"/> <!--form-login로그관련 설정을 하는 데 사용한다.  login-page="/login"은 로그인 관련 페이지지정-->
         <csrf/><!-- 보안 -->
         <logout logout-success-url="/logout"/> <!--로그아웃 관련 설정-->
 

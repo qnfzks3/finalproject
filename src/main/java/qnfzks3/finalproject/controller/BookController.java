@@ -5,11 +5,14 @@ package qnfzks3.finalproject.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import qnfzks3.finalproject.model.Book;
 import qnfzks3.finalproject.service.BookService;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -112,7 +115,7 @@ public class BookController {
 
 
 
-    @GetMapping("/add") //@ModelAttribute 어노테이션은 form에서 @ModelAttribute로 지정된 newbook을 의미한다.
+    @GetMapping("/add") //@ModelAttribute 어노테이션은 jsp에있는 form에서 @ModelAttribute로 지정된 newbook을 의미한다.
     public String requestAddBookForm(@ModelAttribute("newbook")Book newbook){
 
 
@@ -127,20 +130,59 @@ public class BookController {
 
 
    @PostMapping("/add")
-   public String requestAddBookFormok(@ModelAttribute("newbook")Book newbook,Model model){
+   public String requestAddBookFormok(@ModelAttribute("newbook")Book newbook,Model model){ //뒤에 newbook으로 받아오고 model로 jsp에 전해줌
 
         String viewPage ="list/addbook";
 
-        if (bookService.setNewBook(newbook)){
-            viewPage="redirect:/list/booklist?cpg=1";
-        }               //jsp에서 newbook으로 전달 받고 이걸 서비스 dao mapper 로 전달하도록한다.
 
-        return viewPage;
+
+        //addbook에서 input으로 적은 값에 type 파일로 가져온
+        MultipartFile bookImage =newbook.getBookImage(); //업로드한 도서 이미지에 해당하는 매개변수를 MultipartFile 객체의 bookImage변수에 넣어줌
+                                                        //model에 bookImage() 에 get으로 넣어준거임
+        String saveName = bookImage.getOriginalFilename();  //MultipartFile 타입으로 전송 받은 이미지 파일 이름을 얻는다.
+        //String savepath=bookImage.getFile(); //파일 형식
+
+        File saveFile=new File("C:\\upload",saveName);  /* C:/upload 경로로 업로드 - File 클라스("경로"지정, 파일이름 변수 지정)*/
+                                                                /*이렇게 하면 해당 경로에 파일이 업로드된 파일이 생성된다.*/
+        if (bookImage != null && !bookImage.isEmpty()){
+            try{
+
+                bookImage.transferTo(saveFile);    //도서 이미지 파일을 경로로 업로드
+
+            }catch (Exception e){
+                throw new RuntimeException("도서 이미지 업로드가 실패했습니다.",e);
+            }
+        }
+
+       String imagePath = saveName;  //여기 경로가 데이터베이스 경로 칼럼에 들어가는 값 파일이름
+       newbook.setImagePath(imagePath);  //Book에 있는 경로 변수에 경로를 넣어준다.
+
+       if (bookService.setNewBook(newbook)){
+           viewPage="redirect:/list/booklist?cpg=1";
+       }               //jsp에서 newbook으로 전달 받고 이걸 서비스 dao mapper 로 전달하도록한다.
+
+       return viewPage;
     }
     //@ModelAttribute("newbook") 어노테이션을 @PostMapping("/add") 메서드에 적용하면,
     // 이 메서드는 전송된 폼 데이터를 해당 어노테이션으로 지정된 객체에 바인딩합니다. 
     // 즉, 폼에 입력된 데이터가 newbook 객체에 자동으로 매핑되어 컨트롤러 메서드에 전달됩니다. 
-    // 이후 데이터 처리를 위해 newbook 객체를 사용  
+    // 이후 데이터 처리를 위해 newbook 객체를 사용
+
+
+
+    @ModelAttribute   //model에 속성을 추가하기위해 사용
+    public void addAttributes(Model model){
+        model.addAttribute("addTitle","신규 도서 등록");
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        binder.setAllowedFields("bookid","bkname","unitPrice","author","description","publisher",
+                "category","unitsInStock","totalPages","releaseDate","cobd","bookImage");
+    }
+
+
+
 
 
 }

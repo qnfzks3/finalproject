@@ -27,8 +27,11 @@
       <input type="submit" class="btn btn-sm btn-success" value="Logout" />
     </form:form>
   </div>
-  <br><br>
-  <form:form modelAttribute = "newbook" class="form-horizontal" >
+  <br><br><%--action="./add?${_csrf.parameterName}=${_csrf.token}"은 폼 데이터를 서버로 제출할 때 요청을 보낼 경로를 지정 csrf토큰은 보안 강화역할-주소 다르게--%>
+  <form:form modelAttribute = "newbook"
+             action="./add?${_csrf.parameterName}=${_csrf.token}"
+             class="form-horizontal"
+             enctype="multipart/form-data" > <%--enctype="multipart/form-data"은 폼 데이터에 파일 업로드가 포함되어 있음, 이는 폼에서 파일을 전송하는 경우에 필요한 설정입니다.--%>
     <fieldset>
       <div class="form-group row">
         <label class="col-sm-2 control-label" >도서명</label>
@@ -81,6 +84,15 @@
           <form:radiobutton path="cobd" value="E-Book" />E-Book
         </div>
       </div>
+
+      <div class="form-group row">
+        <label class="col-sm-2 control-label">도서 이미지</label>
+        <div class="col-sm-7">
+          <form:input path="bookImage" type="file" class="form-control" />  <%--type="file"  그리고 Book에 지정한 변수 bookImage 에 파일을 넣어라 --%>
+        </div>
+      </div>
+
+
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10" >
         <input type="submit" id="writebtn" class="btn btn-primary"  value ="등록"/> <%--submit 으로 제출--%>

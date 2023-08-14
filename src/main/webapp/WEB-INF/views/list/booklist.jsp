@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--c와 fn은 JSTL(JSP Standard Tag Library) 태그 라이브러리를 선언 - JSTL은 그냥 로직을 더 간편하게,단순하게 작성하기 위한 라이브러리--%>
-
-
+<%--JSTL(Core) 라이브러리 c 태그 - c:forEach>, <c:if>, <c:choose> 등의 태그를 사용하여 반복문, 조건문을 처리--%>
+<%--JSP 페이지에서 JSTL(Functions) 라이브러리를 사용하기 위한 태그 라이브러리 선언
+ fn:substring(), fn:length(), fn:toUpperCase() 등의 함수를 사용하여 문자열을 자르거나 길이를 구할 수 있습니다.--%>
 
 <html>
 <head>
@@ -39,12 +40,20 @@
 
 <div class="container">
 
-    <div class="row" align="center">
-        <c:forEach items="${bklist}" var="book">
+    <div class="row" align="center">  <%--bklist는 select * from Book--%>
+        <c:forEach items="${bklist}" var="book"> <%--mapper->dao->service->controller(bklist전체 데이터 셀렉)->jsp 즉 칼럼에서만 가져온거라고 보면 됨--%>
             <div class="col-md-4">
+                <c:choose>
+                    <c:when test="${book.imagePath!=null}">
+                        <img src="<c:url value="file:///C:/upload/${book.imagePath}" />" style="width: 60%"/>
+                    </c:when><%--경로의 경우 내 컴퓨터 한곳에 몰아넣고 그냥 수기로 넣어주고 데이터베이스에는 파일이름만 가져와서 출력--%>
+                    <c:otherwise>
+
+                    </c:otherwise>
+                </c:choose>
                 <h3 class="col">${book.bkname}</h3> <%--여기정의된 book은 위에 var = book 즉,컨트롤러에서 받아온 bookList이다 --%>
                 <p>${book.author}<br>${book.publisher}|${book.releaseDate}</p>
-                <p align="left">${fn:substring(book.description,0,50)}...</p>
+                <p>${fn:substring(book.description,0,50)}...</p>
                 <p>${book.unitPrice}원</p>
                 <p><a href="<c:url value="/list/bookinfo?id=${book.bookid}"/>" class="btn btn-secondary" role="button">
                     상세정보 보기 &raquo;</a></p>
