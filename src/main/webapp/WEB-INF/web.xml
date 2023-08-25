@@ -34,14 +34,25 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class><!--DispatcherServlet 클래스 설정-->
         <init-param> <!--여기에 설정된 모든 서블릿에서만 사용되는 설정-->
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/servlet-context.xml</param-value>
+            <param-value>classpath:spring/servlet-context.xml</param-value> <!--파일 경로에 있는 servlet-context.xml이라는 파일에 설정하겠다.-->
         </init-param>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>1</load-on-startup> <!--로드온 스타트업- 1 은 서버와 함께 동작하겠다.-->
     </servlet>
-    <servlet-mapping>
-        <servlet-name>appServlet</servlet-name>
-        <url-pattern>/</url-pattern>
+    <servlet-mapping> <!--어떤 서블릿을 매핑할꺼야?-->
+        <servlet-name>appServlet</servlet-name> <!--매핑할 서블릿 이름 - 위에 우리가 설정해 놓은 서블릿 appServlet-->
+        <url-pattern>/</url-pattern> <!--웹 주소창을 보면 / 뒤에 오는 모든 url을 위에 appServlet(위에서 우리가 설정한 서블릿이름)으로 설정 하겠다.-->
+        <!--이 appServlet은 위에서 보이듯 DispatcherServlet 클래스로 설정되 어있음 .즉,모든 url은 DispatcherServlet이 다 가져간다. -->
     </servlet-mapping>
+
+    <!--DispatcherServlet은 웹 요청을 처리하고 관리하는 중요한 컴포넌트
+    -중요!!  Spring MVC (Model-View-Controller) 아키텍처의 핵심 부분이며,
+            웹 요청을 적절한 핸들러(컨트롤러)로 라우팅하고, 처리 결과를 뷰에 전달하여 클라이언트에게 응답을 생성합니다.
+
+    -->
+
+
+
+
 
 
     <!--스프링에서 한글 깨짐 방지 UTF-8 인코딩-->

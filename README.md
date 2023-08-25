@@ -84,7 +84,8 @@ jackson-core, jackson-databind 를 POM에 추가
 
 ### 2. 환경 설정 파일을 만들어 보자! 
 
-(1) web.xml 파일 만든다.   (지시자 파일) - 구성과 설정 담당
+(1) web.xml 파일 만든다.   (지시자 파일) - 구성과 설정 담당  - 가장 먼저 이것부터 만들고 서버와 함께 설정할 수 있도록하자.
+ * 처음 시작할 때 web.xml 부터 봐야한다.
  web.xml 파일은 웹브라우저의 웹 요청 URL을 전달 받는다.
  - 이렇게 URL로 root-context와 servlet-context.xml의 경로를 지정하여 MVC의 설정 파일들을 정의한다.
  

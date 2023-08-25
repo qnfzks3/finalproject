@@ -2,6 +2,7 @@
 
 package qnfzks3.finalproject.controller;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -133,7 +134,6 @@ public class BookController {
    public String requestAddBookFormok(@ModelAttribute("newbook")Book newbook,Model model){ //뒤에 newbook으로 받아오고 model로 jsp에 전해줌
 
         String viewPage ="list/addbook";
-
 
 
         //addbook에서 input으로 적은 값에 type 파일로 가져온

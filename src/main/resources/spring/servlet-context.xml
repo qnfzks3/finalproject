@@ -21,7 +21,7 @@
     <!-- 웹 정적 자원(static resource) 설정 - JS,CSS,IMG등 파일을 매핑하기위해서 /~ 절대경로 , 그냥 경로하려면 ./~ -->
     <resources mapping="/resources/**" location="/resources" />
 
-    <!--뷰 매핑 설정-->
+    <!--뷰 매핑 설정 - 컨트롤러에 리턴으로 주는 파일이름을 /WEB-INF/views/ 경로에서 찾아라 파일이름.jsp이다.-->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <beans:property name="prefix" value="/WEB-INF/views/" />
         <beans:property name="suffix" value=".jsp" />
