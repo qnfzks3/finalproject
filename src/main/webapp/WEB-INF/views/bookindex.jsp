@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <link href="/resources/bootstrap.min.css">  <%--부트스트렙 파일 넣은걸 가져와서 부트스트랩 사용 시작--%>
+    <link href="/resources/css/bootstrap.min.css">  <%--부트스트렙 파일 넣은걸 가져와서 부트스트랩 사용 시작--%>
     <title>Welcome to BookMarket!!</title>
 
 

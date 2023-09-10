@@ -5,14 +5,14 @@
             parameterType="int"
             resultType="qnfzks3.finalproject.model.Book">
         select * from Book
-        order by bookid desc limit #{stbkid}, 5
+        order by bookid desc limit #{stbkid}, 6
 
     </select>
     <!--뒤에서 부터 출력해야 최신 데이터이기 때문에 desc 를 써준다 시작은 0 부터 이기때문에 (cpg-1)*5 로 적어주는 것이다. cpg가 1이면 0부터 cpg가 2면 5부터 되도록-->
     <!--parameterType는 #{}로 가져올 데이터의 타입, resultType는 내보낼 데이터의 타입-->
 
     <select id="countBook" statementType="PREPARED" resultType="int">
-        select ceil(count(bookid)/5) cnt from Book
+        select ceil(count(bookid)/6) cnt from Book
     </select>
 
 
@@ -20,8 +20,8 @@
             resultType="qnfzks3.finalproject.model.Book">
         select * from Book
         where category like concat(#{category}) and (bkname like concat('%',#{fkey}, '%') or #{fkey} is null)
-        order by bookid desc limit #{stbkid}, 5
-        /*concat이렇게 하면 %가 앞뒤로 있어야하지만 여긴 뒤만있기에 다안나옴*/
+        order by bookid desc limit #{stbkid}, 6
+       /* concat이렇게 하면 %가 앞뒤로 있어야하지만 여긴 뒤만있기에 다안나옴*/
     </select>
 
 
@@ -42,6 +42,8 @@
         values (#{bkname},#{unitPrice},#{author},#{description},#{publisher},#{category},#{unitsInStock},#{cobd},#{imagePath});
 
     </insert>
+
+
 
 
 

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>도서 목록</title>
-    <link href="<c:url value="/resources/bootstrap.min.css"/>"  rel="stylesheet">
+    <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
     <%--JSTL의<c:url> 태그를 사용하여 상대 경로로 CSS파일을 가져옴 - <c:url>로 가져오면 다른 경로나 환경에 배포되어도 문제없이 파일을 찾을 수 있다. --%>
 
     <c:set var="pglink" value="/list/booklist?cpg=" />
@@ -44,9 +44,15 @@
         <c:forEach items="${bklist}" var="book"> <%--mapper->dao->service->controller(bklist전체 데이터 셀렉)->jsp 즉 칼럼에서만 가져온거라고 보면 됨--%>
             <div class="col-md-4">
                 <c:choose>
-                    <c:when test="${book.imagePath!=null}">
-                        <img src="<c:url value="file:///C:/upload/${book.imagePath}" />" style="width: 60%"/>
+                    <c:when test="${book.imagePath!=null && !bookImage.isEmpty()}">
+                        <%--<img src="${pageContext.request.contextPath}${book.imagePath}" alt="Uploaded Image" />--%>
+                        <%--<img src="${book.imagePath}" alt="Uploaded Image" />--%>
+                        <%--<img src="<c:url value="/resources/image/${book.imagePath}" />" style="width: 60%" />
+                        <img src="<c:url value="C:\\upload\\${book.imagePath}" />" style="width: 60%"/>--%>
+                        <%--<img src="<c:url value="/upload/${book.imagePath}" />" alt="Uploaded Image" style="width: 60%"/>--%>
+                        <img src="<c:url value='/image/${book.imagePath}' />"  />
                     </c:when><%--경로의 경우 내 컴퓨터 한곳에 몰아넣고 그냥 수기로 넣어주고 데이터베이스에는 파일이름만 가져와서 출력--%>
+
                     <c:otherwise>
 
                     </c:otherwise>

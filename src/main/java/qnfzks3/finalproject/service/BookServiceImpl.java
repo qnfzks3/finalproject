@@ -18,7 +18,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getAllBookList(Integer cpage) {
-        int stbkid = (cpage - 1) * 5;
+        int stbkid = (cpage - 1) * 6;
         return bookDAO.getAllBookList(stbkid);
     }
 
@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getBookListByCategory(String category,String fkey,Integer cpg) {  //검색 리스트 이기때문에 매개변수가 많다.
-        int stbkid = (cpg - 1) * 5;
+        int stbkid = (cpg - 1) * 6;
 
         Map<String, Object> params = new HashMap<>();
         params.put("category", category);

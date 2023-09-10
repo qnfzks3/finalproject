@@ -4,7 +4,7 @@
 
 <html>
 <head>
-  <link href="<c:url value="/resources/bootstrap.min.css"/>"  rel="stylesheet">
+  <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
   <title>도서 등록</title>
 </head>
 <body>

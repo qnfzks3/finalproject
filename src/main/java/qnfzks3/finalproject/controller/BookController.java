@@ -2,10 +2,19 @@
 
 package qnfzks3.finalproject.controller;
 
-import org.apache.commons.io.FileUtils;
+
+
+
+
+
+
+
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,8 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 import qnfzks3.finalproject.model.Book;
 import qnfzks3.finalproject.service.BookService;
 
+
 import java.io.File;
-import java.util.List;
+
+import java.nio.file.Files;
+
+import java.util.UUID;
+
 
 
 /* 1번 컨트롤러 방식 */
@@ -72,6 +86,8 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
+
+    
     //전체 출력
     @GetMapping("/booklist")
     public ModelAndView requestBookList(Integer cpg) { //ModelAndView 객체 사용
@@ -87,11 +103,18 @@ public class BookController {
         return mv;
 
     }
+
+
+
+
+
+
+
     //검색 기능
     @GetMapping("booklist/{category}")    //PathVariable 변수를 경로값으로 지정
     public ModelAndView requestBooksByCategory(Integer cpg,@PathVariable("category") String bookCategory, String fkey){
         ModelAndView mv = new ModelAndView();
-        mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));//sql문으로 페이지에 출력하는 데이터
+        mv.addObject("bklist",bookService.getBookListByCategory(bookCategory,fkey,cpg));//sql문으로 칼럼데이터들이 넘어와서 list/booklist에 bklist 에 담아 보냄
         mv.addObject("cpg", cpg);//cpg로 페이지네이션 위치 표시
         mv.addObject("stpg", ((cpg - 1) / 10) * 10 + 1 ); //시작 페이지 계산하기
         mv.addObject("cntpg", bookService.getCountBookCategory(bookCategory,fkey) ); //총 페이지 개수
@@ -136,26 +159,48 @@ public class BookController {
         String viewPage ="list/addbook";
 
 
+
+
         //addbook에서 input으로 적은 값에 type 파일로 가져온
         MultipartFile bookImage =newbook.getBookImage(); //업로드한 도서 이미지에 해당하는 매개변수를 MultipartFile 객체의 bookImage변수에 넣어줌
                                                         //model에 bookImage() 에 get으로 넣어준거임
         String saveName = bookImage.getOriginalFilename();  //MultipartFile 타입으로 전송 받은 이미지 파일 이름을 얻는다.
         //String savepath=bookImage.getFile(); //파일 형식
 
-        File saveFile=new File("C:\\upload",saveName);  /* C:/upload 경로로 업로드 - File 클라스("경로"지정, 파일이름 변수 지정)*/
-                                                                /*이렇게 하면 해당 경로에 파일이 업로드된 파일이 생성된다.*/
-        if (bookImage != null && !bookImage.isEmpty()){
-            try{
+        /*File saveFile=new File("C:\\Users\\Documents\\finalproject\\src\\main\\webapp\\resources\\image",saveName);*/
+        File saveFile=new File("C:/upload",saveName);
 
+        /* C:/upload 경로로 업로드 - File 클라스("경로"지정, 파일이름 변수 지정)*/
+       /*이렇게 하면 해당 경로에 파일이 업로드된 파일이 생성된다.*/
+
+       //경로 지정 상대 경로 - 현재 위치에서 다른 경로를 지정하는 경로  
+       // (./ 는 현재  ../는 상위 경로 )-ex) ./resources/는 현재 경로 내의 resources폴더를 의미
+       // 경로지정 절대 경로 - 파일 시스템의 루트 디렉토리에서 시작하는 폴더의 이름을 지정 
+       // /resources/ 는 현재 폴더와 관계없이 resources 라는 폴더를 찾아 그 폴더로 지정
+       String baseName = FilenameUtils.getBaseName(saveName);
+       String extension = FilenameUtils.getExtension(saveName);
+       String uniqueFilename = baseName + "_" + System.currentTimeMillis() + "." + extension;
+       //이름에 해당 업로드 시간을 넣어서 중복되면 중복방지
+
+       if (bookImage != null && !bookImage.isEmpty()){
+            try{
+                if (Files.exists(saveFile.toPath())) { // 만약 파일 이름이 중복으로 존재한다면?
+                    saveFile=new File("C:/upload",uniqueFilename);
+
+                }
                 bookImage.transferTo(saveFile);    //도서 이미지 파일을 경로로 업로드
+
+
+
 
             }catch (Exception e){
                 throw new RuntimeException("도서 이미지 업로드가 실패했습니다.",e);
+
             }
-        }
+       }
 
        String imagePath = saveName;  //여기 경로가 데이터베이스 경로 칼럼에 들어가는 값 파일이름
-       newbook.setImagePath(imagePath);  //Book에 있는 경로 변수에 경로를 넣어준다.
+       newbook.setImagePath(imagePath);  // DAO Book에 addbook.jsp 에서 넣은 파일 이름을 넣어준다.
 
        if (bookService.setNewBook(newbook)){
            viewPage="redirect:/list/booklist?cpg=1";
@@ -167,6 +212,35 @@ public class BookController {
     // 이 메서드는 전송된 폼 데이터를 해당 어노테이션으로 지정된 객체에 바인딩합니다. 
     // 즉, 폼에 입력된 데이터가 newbook 객체에 자동으로 매핑되어 컨트롤러 메서드에 전달됩니다. 
     // 이후 데이터 처리를 위해 newbook 객체를 사용
+
+
+    //중복 파일 명 예외 처리
+   /* @PostMapping(value ="/upload/uploadForm")
+    public ModelAndView uploadFomr(MultipartFile file, ModelAndView mav) throws Exception{
+        String savedName = file.getOriginalFilename();
+        savedName = uploadFile(savedName, file.getBytes());
+        mav.setViewName("redirect:/list/booklist?cpg=1");//모델앤뷰의 뷰 경로지정
+        mav.addObject("savedName", savedName);//속성추가
+        return mav;
+    }*/
+
+    //파일 이름을 uuid 랜덤으로 추가해주는 메서드
+    private String uploadFile(String originalName, byte[] fileData) throws Exception{
+
+        // uuid 생성
+        UUID uuid = UUID.randomUUID();
+
+        //savedName 변수에 uuid + 원래 이름 추가
+        String saveName = uuid.toString()+"_"+originalName;
+        //uploadPath경로의 savedName 파일에 대한 file 객체 생성
+        File target = new File("C:/upload", saveName);
+        //fileData의 내용을 target에 복사함
+        FileCopyUtils.copy(fileData, target);
+
+        return saveName;
+    }
+
+
 
 
 

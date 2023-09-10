@@ -19,7 +19,9 @@
 
 
     <!-- 웹 정적 자원(static resource) 설정 - JS,CSS,IMG등 파일을 매핑하기위해서 /~ 절대경로 , 그냥 경로하려면 ./~ -->
-    <resources mapping="/resources/**" location="/resources" />
+    <!--mapping="/resources/**"은 클라이언트가 요청하는 URL 중에서 /resources/로 시작하는 모든 요청을 처리하기 위한 패턴을 지정합니다.-->
+    <!--location="/resources/"은 정적 리소스 파일들이 서버의 어느 디렉토리에 위치하는지를 지정합니다. 이 설정은 실제 파일이 저장된 디렉토리 경로를 나타냅니다.-->
+    <resources mapping="/resources/**" location="/resources/" />
 
     <!--뷰 매핑 설정 - 컨트롤러에 리턴으로 주는 파일이름을 /WEB-INF/views/ 경로에서 찾아라 파일이름.jsp이다.-->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -39,7 +41,7 @@
     </beans:bean>
 
     <beans:bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">  <!--uploadDirResource-임시저장공간 bean정의-->
-        <beans:constructor-arg value="c:/upload"/>
+        <beans:constructor-arg value="C:/upload"/>
     </beans:bean>
 
 

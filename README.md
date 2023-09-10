@@ -509,6 +509,7 @@ transferTo(File dest) : 수신된 파일을 지정한 대상 파일에 전송 (v
 
 
 
-웹에서 로컬로 
 
 
+//HttpServlet은 doGet() 또는 doPost()를 재정의하여 클라이언트로부터 받은 HTTP GET 또는 POST 요청을 처리합니다.
+// 즉, http요청 ,응답 처리 하는데 사용되는 클래스

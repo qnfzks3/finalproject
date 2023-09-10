@@ -6,7 +6,7 @@
 <html>
 <head>
 
-    <link href="<c:url value="/resources/bootstrap.min.css"/>"  rel="stylesheet">
+    <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
     <title>도서 상세보기</title>
 
 
@@ -29,6 +29,9 @@
     <div class="container">
         <div class="row">
                     <div class="col-md-12">
+
+                        <img src="<c:url value='/image/${bookinfo.imagePath}' />" alt="no image" />
+
                         <h3>${bookinfo.bkname}</h3>
                         <p>${bookinfo.description}</p>
                         <br>
@@ -43,7 +46,7 @@
 
                 <br>
                 <p><a href="#" class="btn btn-primary">도서 주문 &raquo;</a></p>
-                <p><a href="<c:url value="/list/booklist?cpg=1" />">도서 목록 &raquo;</a></p>
+                <p><a href="<c:url value="/list/booklist?cpg=1 "/>" class="btn btn-secondary">도서 목록 &raquo;</a></p>
         </div>
         <hr>
         <footer>
