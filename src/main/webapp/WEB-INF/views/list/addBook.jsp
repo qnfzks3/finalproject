@@ -64,6 +64,13 @@
         </div>
       </div>
       <div class="form-group row">
+        <label class="col-sm-2 control-label" >출판일</label>
+        <div class="col-sm-3">
+          <form:input  path="releaseDate" name="releaseDate" id="releaseDate" class="form-control"/>
+        </div>
+
+      </div>
+      <div class="form-group row">
         <label class="col-sm-2 control-label" >분야</label>
         <div class="col-sm-3">
           <form:input path="category" name="category" id="category" class="form-control"/>

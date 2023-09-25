@@ -94,7 +94,7 @@ public class BookController {
         ModelAndView mv = new ModelAndView();
 
 
-        mv.addObject("bklist", bookService.getAllBookList(cpg));
+            mv.addObject("bklist", bookService.getAllBookList(cpg));
         mv.addObject("cpg", cpg);
         mv.addObject("stpg", ((cpg - 1) / 10) * 10 + 1 );
         mv.addObject("cntpg", bookService.getCountBook()); //뷰 파일(jsp)로 보낼 데이터를 cntpg라는 이름으로 ModelAndView에 이름으로 넣어줌
@@ -130,6 +130,8 @@ public class BookController {
     @GetMapping("/bookinfo")  //경로에 @PathVariable가 있다면 매개 변수에는 @RequestParam가 있다.
                                 // booid라고 적지않고 id=로 적어도 bookid로 인식하도록 도와줌
     public String requestBookById(@RequestParam("id") String bookid,Model model){
+        //@RequestParam으로  URL에서 id를 bookid라는 이름으로 가져와서 사용
+
         Book bookById = bookService.getBookInfo(bookid);
         model.addAttribute("bookinfo",bookById);
 
@@ -214,37 +216,8 @@ public class BookController {
     // 이후 데이터 처리를 위해 newbook 객체를 사용
 
 
-    //중복 파일 명 예외 처리
-   /* @PostMapping(value ="/upload/uploadForm")
-    public ModelAndView uploadFomr(MultipartFile file, ModelAndView mav) throws Exception{
-        String savedName = file.getOriginalFilename();
-        savedName = uploadFile(savedName, file.getBytes());
-        mav.setViewName("redirect:/list/booklist?cpg=1");//모델앤뷰의 뷰 경로지정
-        mav.addObject("savedName", savedName);//속성추가
-        return mav;
-    }*/
 
-    //파일 이름을 uuid 랜덤으로 추가해주는 메서드
-    private String uploadFile(String originalName, byte[] fileData) throws Exception{
-
-        // uuid 생성
-        UUID uuid = UUID.randomUUID();
-
-        //savedName 변수에 uuid + 원래 이름 추가
-        String saveName = uuid.toString()+"_"+originalName;
-        //uploadPath경로의 savedName 파일에 대한 file 객체 생성
-        File target = new File("C:/upload", saveName);
-        //fileData의 내용을 target에 복사함
-        FileCopyUtils.copy(fileData, target);
-
-        return saveName;
-    }
-
-
-
-
-
-    @ModelAttribute   //model에 속성을 추가하기위해 사용
+    @ModelAttribute   //model을  사용할 때 공통 사항을 여러 컨트롤러 메서드에서 설정하고자 할 때 사용
     public void addAttributes(Model model){
         model.addAttribute("addTitle","신규 도서 등록");
     }
@@ -254,6 +227,7 @@ public class BookController {
         binder.setAllowedFields("bookid","bkname","unitPrice","author","description","publisher",
                 "category","unitsInStock","totalPages","releaseDate","cobd","bookImage");
     }
+
 
 
 

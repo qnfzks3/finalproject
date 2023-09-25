@@ -21,15 +21,16 @@
         select * from Book
         where category like concat(#{category}) and (bkname like concat('%',#{fkey}, '%') or #{fkey} is null)
         order by bookid desc limit #{stbkid}, 6
-       /* concat이렇게 하면 %가 앞뒤로 있어야하지만 여긴 뒤만있기에 다안나옴*/
+       /* concat이렇게 하면 %가 앞뒤로 있어야하지만 여긴 뒤만있기에 다안나옴 , concat은 문자열을 결합할때 사용*/
     </select>
 
 
     <select id="countFindBook" statementType="PREPARED" parameterType="map" resultType="int">
-        select ceil(count(bookid)/5) cnt from Book
+        select ceil(count(bookid)/6) cnt from Book
         where category like concat(#{category})and (bkname like concat('%',#{fkey}, '%') or #{fkey} is null)
     </select>
-
+   <!-- 조건(where)을 데이터 베이스category와 jsp에서 받아온 카테고리가 같거고
+    검색 한 내용이 포함된 내용(fkey)이 데이터 베이스bkname과 같은 것들의 페이지 네이션을 위해서 총개수(ceil)를 셀렉 ps) cnt는 소수점 제외-->
 
     <select id="selectBookInfo" statementType="PREPARED" parameterType="String" resultType="qnfzks3.finalproject.model.Book">
         select * from Book
@@ -39,11 +40,11 @@
 
     <insert id="insertBook" statementType="PREPARED" parameterType="qnfzks3.finalproject.model.Book" >
         insert into Book(bkname,unitPrice,author,description,publisher,category,unitsInStock,cobd,imagePath)
-        values (#{bkname},#{unitPrice},#{author},#{description},#{publisher},#{category},#{unitsInStock},#{cobd},#{imagePath});
+        values (#{bkname},#{unitPrice},#{author},#{description},#{publisher},#{releaseDate},#{category},#{unitsInStock},#{cobd},#{imagePath});
 
     </insert>
 
-
+   <!-- releaseDate는 데이터베이스 테이블에서 자동 로드 되도록 했기 때문에 테이블을 다시 수정해주자 - 나중에-->
 
 
 

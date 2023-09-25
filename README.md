@@ -1,5 +1,39 @@
 # myfinalproject 개인 연습
 
+IOC(Inversion of Control) = 제어의 역전 - 메소드나 객체의 호출작업을 개발자가 아닌 외부에서 결정되는 것을 의미한다. 
+EX) 자바 프로그램은 main() 메소드에서 시작하여 개발자가 미리 정한 순서를 따라 객체가 생성되고 실행
+그런데 서블릿을 생각해보면 개발해서 서버로 배포할 수 있지만,
+배포하고 나서는 개발자가 직접 제어할 수 없고 서블릿에 대한 제어 권한을 가진 컨테이너가 적절한 시점에 서블릿 클래스의 객체를 만들고 그 안에 메소드를 호출
+조립된 코드의 최종 호출은 개발자에 의해 제어되는 것이 아닌 프레임워크에 의해 제어
+
+
+먼저 Front Controller 인 DispatcherServlet 이 모든 요청을 담당한다. 
+Client 로부터 요청이 들어오면 DispatcherServlet 은 그 요청을 처리하기 위한 Controller 객체를 검색한다. 
+이때 DispatcherServlet 은 직접 Controller 를 검색하지 않고 HandlerMapping Bean 객체에게 Controller 검색을 요청한다.
+
+ 1. HandlerMapping 은 Client 의 요청 경로를 이용해서 이를 처리할 Controller Bean 객체를 DispatcherServlet 에 전달한다. 
+   예를 들어 웹 요청 경로가 '/hello' 라면 등록된 Controller Bean 중에 해당 요청 경로를 처리할 Controller 를 반환한다.
+
+2. DispatcherServlet 이 Controller 를 전달받았다고 해서 바로 해당 Controller 의 Method() 를 실행할 수 있는 것은 아니다.
+DispatcherServlet 은 @Controller Annotation을 이용해서 구현한 Controller 뿐만 아니라 
+Spring 2.5 까지 주로 사용됐던 Controller Interface 를 구현한 Controller, 
+그리고 특수 목적으로 사용되는 HttpRequestHandler Interface 를 구현한 클래스를 동일한 방식으로 실행할 수 있도록 만들어졌다. 
+이를 위해 중간에 사용되는 것이 바로 HandlerAdapter Bean 이다.
+
+3. DispatcherServlet 은 HandlerMapping 이 찾아준 Controller 객체를 처리할 수 있는 HandlerAdapter Bean 에게 요청 처리를 위임한다.
+HandlerAdapter 는 Controller 의 알맞은 Method()를 요청을 처리하고 그 결과를 DispatcherServlet 에 반환한다.
+이때 HandlerAdapter 는 Controller 의 처리 결과를 ModelAndView 라는 객체로 변환해서 DispatcherServlet 에 반환한다.
+
+4. HandlerAdapter 로부터 Controller 의 요청 처리 결과를 ModelAndView 로 받으면 
+DispatcherServlet 은 결과를 보여줄 View 를 찾기 위해 ViewResolver Bean 객체를 사용한다.
+ModelAndView 는 Controller 가 반환한 View 이름을 담고 있는데 ViewResolver 는 이 View 이름에 해당하는 View 객체를 찾거나 생성해서 반환한다.
+응담을 생성하기 위해 JSP 를 사용하는 ViewResolver 는 매번 새로운 View 객체를 생성해서 DispatcherServlet 에 반환한다.
+
+5. DispatcherServlet 은 ViewResolver 가반환한 View 객체에게 응답 결과 생성을 요청한다. 
+JSP 를 사용하는 경우 View 객체는 JSP 를 실행함으로써 Client 에게 전송할 응답 결과를 생성하고 이로써 모든 과정이 끝이 난다.
+
+
+
 ## 환경 MVC (Model-View-Controller) 
 -- Model(데이터 타입,데이터) , View (사용자 인터페이스) ,Controller(모델과 뷰를 조정)
 
